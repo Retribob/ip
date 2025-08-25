@@ -32,6 +32,12 @@ public class Bobby {
             endChat();
         } else if (userText.equals("list")) {
             listManager.displayList();
+        } else if (userText.split(" ")[0].equals("unmark")) {
+            String[] words = userText.split(" ");
+            listManager.updateTask(false, Integer.parseInt(words[1]) - 1);
+        } else if (userText.split(" ")[0].equals("mark")) {
+            String[] words = userText.split(" ");
+            listManager.updateTask(true, Integer.parseInt(words[1]) - 1);
         } else {
             listManager.add(userText);
         }

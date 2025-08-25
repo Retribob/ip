@@ -20,10 +20,15 @@ public class ListManager {
         int count = 1;
         while(iterator.hasNext()) {
             Task task = iterator.next();
-            System.out.println(count + "."
-                                + "[" + task.getStatus() +"] "
-                                + task.getName());
+            System.out.println(count + "." + task.getTaskWithStatus());
             count++;
         }
+    }
+
+    public void updateTask(boolean status, int index) {
+        Task task = taskList.get(index);
+        task.changeStatus(status);
+        System.out.println("You have " + (status ? "marked" : "unmarked") + " this task.\n"
+                            + task.getTaskWithStatus());
     }
 }

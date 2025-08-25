@@ -9,6 +9,11 @@ public class Task {
     }
 
 
+    public String getTaskWithStatus() {
+        return "[" + getStatus() + "] "
+                + getName();
+    }
+
     public String getName() {
         return taskName;
     }
@@ -21,7 +26,7 @@ public class Task {
         }
     }
 
-    public void changeStatus() {
-        this.isComplete = !isComplete;
+    public void changeStatus(boolean status) {
+        this.isComplete = status;
     }
 }
