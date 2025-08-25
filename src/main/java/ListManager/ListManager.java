@@ -5,14 +5,23 @@ import java.util.List;
 
 public class ListManager {
     private List<Task> taskList;
+    private static int taskCount = 0;
+    private static int completedTasks = 0;
+    private static int uncompletedTasks = 0;
 
     public ListManager() {
         taskList = new ArrayList<>();
     }
 
     public void add(String task) {
-        taskList.add(taskClassifier(task));
-        System.out.println("Task Added: " + task);
+        Task taskType = taskClassifier(task);
+        taskList.add(taskType);
+        taskCount += 1;
+        uncompletedTasks++;
+        System.out.println("Task Added: " + taskType.getName()
+                           + "\nDo remember to take care of your health."
+                           + "\nYou have " + taskCount + " tasks in list, " + completedTasks + " completed "
+                           + uncompletedTasks + " uncompleted.");
     }
 
     public void displayList() {
@@ -28,13 +37,20 @@ public class ListManager {
     public void updateTask(boolean status, int index) {
         Task task = taskList.get(index);
         task.changeStatus(status);
+        if (status) {
+            completedTasks++;
+            uncompletedTasks--;
+        } else {
+            uncompletedTasks++;
+            completedTasks--;
+        }
         System.out.println("You have " + (status ? "marked" : "unmarked") + " this task.\n"
                             + task.getTaskWithStatus());
     }
 
     public Task taskClassifier(String task) {
         //split the task string into keywords
-        String[] taskKeyWords = task.split(" ");
+        String[] taskKeyWords = task.split(" ", 2);
 
         //by splitting the string up we can now compare the first word to identify the task type
         if (taskKeyWords[0].equals("todo")) {
