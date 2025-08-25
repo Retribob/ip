@@ -24,7 +24,6 @@ public class Bobby {
 
     public void userInput() {
         String echoText;
-        System.out.println("Key in what you want me to echo: ");
         echoText = scanner.nextLine();
 
         if (echoText.equals("bye")) {

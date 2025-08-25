@@ -9,6 +9,6 @@ public class EchoText extends Text{
 
     @Override
     public String getText() {
-        return this.echo;
+        return "added: " + this.echo;
     }
 }
