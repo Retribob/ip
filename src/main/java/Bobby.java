@@ -1,10 +1,15 @@
 import TextTypes.*;
+import java.util.Scanner;
 
 public class Bobby {
     private static boolean isRunning;
+    private Scanner scanner;
 
     public Bobby() {
         isRunning = true;
+        scanner = new Scanner(System.in);
+
+        generateResponse(new StartText());
     }
 
     public void printLine() {
@@ -17,12 +22,27 @@ public class Bobby {
         printLine();
     }
 
+    public void userInput() {
+        String echoText;
+        System.out.println("Key in what you want me to echo: ");
+        echoText = scanner.nextLine();
+
+        if (echoText.equals("bye")) {
+            endChat();
+        } else {
+            generateResponse(new EchoText(echoText));
+        }
+    }
+
+    public void endChat() {
+        generateResponse(new EndText());
+        isRunning = false;
+    }
 
     public static void main(String[] args) {
         Bobby chatBot = new Bobby();
-        chatBot.generateResponse(new StartText());
-        chatBot.generateResponse(new EndText());
-        isRunning = false;
-
+        while (isRunning) {
+            chatBot.userInput();
+        }
     }
 }
