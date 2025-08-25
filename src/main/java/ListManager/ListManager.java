@@ -4,22 +4,25 @@ import java.util.Iterator;
 import java.util.List;
 
 public class ListManager {
-    private List<String> taskList;
+    private List<Task> taskList;
 
     public ListManager() {
         taskList = new ArrayList<>();
     }
 
     public void add(String task) {
-        taskList.add(task);
+        taskList.add(new Task(task));
         System.out.println("Task Added: " + task);
     }
 
     public void displayList() {
-        Iterator<String> iterator = taskList.iterator();
-        int count = 0;
+        Iterator<Task> iterator = taskList.iterator();
+        int count = 1;
         while(iterator.hasNext()) {
-            System.out.println(count + ". " + iterator.next());
+            Task task = iterator.next();
+            System.out.println(count + "."
+                                + "[" + task.getStatus() +"] "
+                                + task.getName());
             count++;
         }
     }
