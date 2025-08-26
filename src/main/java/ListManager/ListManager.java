@@ -1,5 +1,6 @@
 package ListManager;
 
+import CustomExceptions.EmptyListException;
 import CustomExceptions.IncompleteTaskException;
 import CustomExceptions.NoSuchTaskException;
 
@@ -28,7 +29,10 @@ public class ListManager {
                            + uncompletedTasks + " uncompleted.");
     }
 
-    public void displayList() {
+    public void displayList() throws EmptyListException {
+        if (taskList.isEmpty()) {
+            throw new EmptyListException("There are no tasks to display, please input some tasks");
+        }
         Iterator<Task> iterator = taskList.iterator();
         int count = 1;
         while(iterator.hasNext()) {
@@ -38,7 +42,10 @@ public class ListManager {
         }
     }
 
-    public void updateTask(boolean status, int index) {
+    public void updateTask(boolean status, int index) throws NoSuchTaskException{
+        if (index > taskList.size() - 1) {
+            throw new NoSuchTaskException("There is no task corresponding to the number" + (index + 1));
+        }
         Task task = taskList.get(index);
         task.changeStatus(status);
         if (status) {

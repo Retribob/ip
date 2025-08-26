@@ -1,3 +1,4 @@
+import CustomExceptions.EmptyListException;
 import CustomExceptions.IncompleteTaskException;
 import CustomExceptions.NoSuchTaskException;
 import TextTypes.*;
@@ -27,7 +28,7 @@ public class Bobby {
         System.out.println(text.getText());
     }
 
-    public void userInput() throws NoSuchTaskException, IncompleteTaskException {
+    public void userInput() throws NoSuchTaskException, IncompleteTaskException, EmptyListException {
         String userText;
         userText = scanner.nextLine();
         if (userText.equals("bye")) {
