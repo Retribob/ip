@@ -1,11 +1,12 @@
 package ListManager;
 
 public class Task {
-    private String taskName;
+    private String taskDescriptor;
     private boolean isComplete;
+    protected String taskName;
 
     public Task(String taskName) {
-        this.taskName = taskName;
+        this.taskDescriptor = taskDescriptor;
     }
 
 

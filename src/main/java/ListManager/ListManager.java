@@ -56,39 +56,16 @@ public class ListManager {
         //split the task string into keywords
         String[] taskKeyWords = task.split(" ", 2);
 
-        if (taskKeyWords.length == 1 || taskKeyWords[1] == null) {
-            throw new IncompleteTaskException("Task description is incomplete.");
-        }
 
         //by splitting the string up we can now compare the first word to identify the task type
         if (taskKeyWords[0].equals("todo")) {
-            return new Todo(taskKeyWords[1]);
+            return new Todo(task);
         } else if (taskKeyWords[0].equals("deadline")) {
-            //Split at the "/by" key words to get the deadline and the task
-            taskKeyWords = task.split(" /by ");
-
-            //split again the separate the deadline keyword and the task name
-            if (taskKeyWords.length > 1) {
-                return new Deadline(taskKeyWords[0].split(" ", 2)[1], taskKeyWords[1]);
-            } else {
-                throw new IncompleteTaskException("Please add a deadline.\n Example: deadline go home /by 2pm");
-            }
+            return new Deadline(task);
         } else if (taskKeyWords[0].equals("event")){
-            //Split at the "/from " key word to get the event period and the task name
-            taskKeyWords = task.split(" /from ");
-
-            //Split again the separate the event keyword as well as the event start and end date
-            if (taskKeyWords.length > 1) {
-                return new Event(taskKeyWords[0].split(" ", 2)[1],
-                        taskKeyWords[1].split(" /to ")[0],
-                        taskKeyWords[1].split( " /to ")[1]);
-            } else {
-                throw new IncompleteTaskException("Please use /from and /to when specifying an event task.\n" +
-                        "Example: event club /from 2pm /to 4pm");
-            }
-
+            return new Event(task);
         } else {
-            throw new NoSuchTaskException("I'm not sure what you're referring too could you please clarify?");
+            throw new NoSuchTaskException("Sorry I don't recognize this task, can you please use the keywords?");
         }
     }
 }

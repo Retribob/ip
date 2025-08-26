@@ -56,9 +56,7 @@ public class Bobby {
             try {
                 chatBot.printLine();
                 chatBot.userInput();
-            } catch (NoSuchTaskException e) {
-                System.out.println(e.getMessage());
-            } catch (IncompleteTaskException e) {
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
 
