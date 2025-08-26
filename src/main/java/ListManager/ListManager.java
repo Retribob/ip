@@ -65,8 +65,6 @@ public class ListManager {
             //Split at the "/from " key word to get the event period and the task name
             taskKeyWords = task.split(" /from ");
 
-            System.out.println(taskKeyWords[0]);
-
             //Split again the separate the event keyword as well as the event start and end date
             return new Event(taskKeyWords[0].split(" ", 2)[1],
                              taskKeyWords[1].split(" /to ")[0],
