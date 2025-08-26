@@ -1,3 +1,5 @@
+import CustomExceptions.IncompleteTaskException;
+import CustomExceptions.NoSuchTaskException;
 import TextTypes.*;
 import ListManager.*;
 
@@ -25,7 +27,7 @@ public class Bobby {
         System.out.println(text.getText());
     }
 
-    public void userInput() {
+    public void userInput() throws NoSuchTaskException, IncompleteTaskException {
         String userText;
         userText = scanner.nextLine();
         if (userText.equals("bye")) {
@@ -51,8 +53,15 @@ public class Bobby {
     public static void main(String[] args) {
         Bobby chatBot = new Bobby();
         while (isRunning) {
-            chatBot.printLine();
-            chatBot.userInput();
+            try {
+                chatBot.printLine();
+                chatBot.userInput();
+            } catch (NoSuchTaskException e) {
+                System.out.println(e.getMessage());
+            } catch (IncompleteTaskException e) {
+                System.out.println(e.getMessage());
+            }
+
         }
     }
 }
