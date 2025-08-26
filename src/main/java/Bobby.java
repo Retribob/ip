@@ -31,16 +31,18 @@ public class Bobby {
     public void userInput() throws NoSuchTaskException, IncompleteTaskException, EmptyListException {
         String userText;
         userText = scanner.nextLine();
+        String[] words = userText.split(" ");
         if (userText.equals("bye")) {
             endChat();
         } else if (userText.equals("list")) {
             listManager.displayList();
-        } else if (userText.split(" ")[0].equals("unmark")) {
-            String[] words = userText.split(" ");
+        } else if (words[0].equals("unmark")) {
             listManager.updateTask(false, Integer.parseInt(words[1]) - 1);
-        } else if (userText.split(" ")[0].equals("mark")) {
-            String[] words = userText.split(" ");
+        } else if (words[0].equals("mark")) {
+            words = userText.split(" ");
             listManager.updateTask(true, Integer.parseInt(words[1]) - 1);
+        } else if (words[0].equals("delete")){
+            listManager.deleteTasks(Integer.parseInt(words[1]) - 1);
         } else {
             listManager.add(userText);
         }

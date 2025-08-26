@@ -1,6 +1,6 @@
 todo Go to School
 deadline Submit Homework /by 26th September 2025
-Event Career fair /from 5th December /to 6th December 2025
+event Career fair /from 5th December /to 6th December 2025
 list
 mark 1
 mark 2

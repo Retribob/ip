@@ -59,6 +59,15 @@ public class ListManager {
                             + task.getTaskWithStatus());
     }
 
+    public void deleteTasks(int index) throws NoSuchTaskException{
+        if (index > taskList.size() - 1) {
+            throw new NoSuchTaskException("There is no task corresponding to the number" + (index + 1));
+        }
+        Task deletedTask = taskList.remove(index);
+        System.out.println("You have deleted " + deletedTask.getTaskWithStatus());
+    }
+
+
     public Task taskClassifier(String task) throws NoSuchTaskException, IncompleteTaskException{
         //split the task string into keywords
         String[] taskKeyWords = task.split(" ", 2);
