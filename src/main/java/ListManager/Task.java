@@ -1,14 +1,40 @@
 package ListManager;
 
+import CustomExceptions.IncompleteTaskException;
+
 public class Task {
-    private String taskDescriptor;
-    private boolean isComplete;
+    protected String taskDescriptor;
+    protected boolean isComplete;
     protected String taskName;
 
     public Task(String taskName) {
         this.taskDescriptor = taskDescriptor;
     }
 
+    //converts object to string for saving to a file
+    public String toStringFormat() {
+        return taskName + "," + isComplete;
+    }
+
+    //Create object from string
+    public Task stringToTask(String fileOutput) throws IncompleteTaskException {
+        String[] words = fileOutput.split(",");
+        String taskType = words[0];
+        String taskDescriptor = words[1];
+        boolean isComplete = Boolean.parseBoolean(words[2]);
+        Task returnTask;
+        if (taskType.equals("Todo")) {
+            returnTask = new Todo(taskDescriptor);
+            returnTask.changeStatus(isComplete);
+        } else if (taskType.equals("Deadline")) {
+            returnTask = new Deadline(taskDescriptor);
+            returnTask.changeStatus(isComplete);
+        } else {
+            returnTask = new Event(taskDescriptor);
+            returnTask.changeStatus(isComplete);
+        }
+        return returnTask;
+    }
 
     public String getTaskWithStatus() {
         return "[" + getStatus() + "] "

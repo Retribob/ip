@@ -1,8 +1,12 @@
 import CustomExceptions.EmptyListException;
 import CustomExceptions.IncompleteTaskException;
 import CustomExceptions.NoSuchTaskException;
-import TextTypes.*;
-import ListManager.*;
+
+import TextTypes.Text;
+import TextTypes.EndText;
+import TextTypes.StartText;
+
+import ListManager.ListManager;
 
 import java.util.Scanner;
 

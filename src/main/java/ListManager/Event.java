@@ -19,6 +19,11 @@ public class Event extends Task{
                 + getEventPeriod();
     }
 
+    @Override
+    public String toStringFormat() {
+        return "Event," + super.taskDescriptor + "," + super.isComplete;
+    }
+
     public String getEventPeriod() {
         return "(from: " + start
                 + " to: " + end + ")";

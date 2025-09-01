@@ -18,6 +18,11 @@ public class Deadline extends Task{
                 + getDeadline();
     }
 
+    @Override
+    public String toStringFormat() {
+        return "Deadline," + super.taskDescriptor + "," + super.isComplete;
+    }
+
     public String getDeadline() {
         return "(by: " + this.deadline + ")";
     }
