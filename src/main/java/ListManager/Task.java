@@ -7,7 +7,7 @@ public class Task {
     protected boolean isComplete;
     protected String taskName;
 
-    public Task(String taskName) {
+    public Task(String taskDescriptor) {
         this.taskDescriptor = taskDescriptor;
     }
 
@@ -17,7 +17,7 @@ public class Task {
     }
 
     //Create object from string
-    public Task stringToTask(String fileOutput) throws IncompleteTaskException {
+    public static Task stringToTask(String fileOutput) throws IncompleteTaskException {
         String[] words = fileOutput.split(",");
         String taskType = words[0];
         String taskDescriptor = words[1];
