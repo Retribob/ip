@@ -4,9 +4,16 @@ import CustomExceptions.EmptyListException;
 import CustomExceptions.IncompleteTaskException;
 import CustomExceptions.NoSuchTaskException;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.SyncFailedException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Scanner;
+
+import java.io.File;
+import java.util.concurrent.ExecutionException;
 
 public class ListManager {
     private List<Task> taskList;
@@ -16,6 +23,7 @@ public class ListManager {
 
     public ListManager() {
         taskList = new ArrayList<>();
+        loadTasks();
     }
 
     public void add(String task) throws NoSuchTaskException, IncompleteTaskException{
@@ -84,4 +92,31 @@ public class ListManager {
             throw new NoSuchTaskException("Sorry I don't recognize this task, can you please use the keywords?");
         }
     }
+
+    public void saveTasks() {
+        System.out.println("Saving tasks");
+        try ( PrintWriter writer = new PrintWriter("Tasks.txt")){
+           for (Task task : taskList) {
+               writer.println(task.toStringFormat());
+           }
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+    }
+    //
+    private void loadTasks() {
+        try (Scanner scanner = new Scanner(new File("Tasks.txt"))) {
+            while(scanner.hasNextLine()) {
+                String taskLine = scanner.nextLine().trim(); //remove trailing spaces to fix error
+                if (!taskLine.isEmpty()) {
+                    taskList.add(Task.stringToTask(taskLine));
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }
+
 }

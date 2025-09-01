@@ -3,8 +3,6 @@ package ListManager;
 import CustomExceptions.IncompleteTaskException;
 
 public class Todo extends Task{
-    private String taskDescriptor;
-
 
     public Todo(String taskDescriptor) throws IncompleteTaskException{
         super(taskDescriptor);
@@ -16,6 +14,11 @@ public class Todo extends Task{
         return "[T]"
                 + "[" + getStatus() + "] "
                 + getName();
+    }
+
+    @Override
+    public String toStringFormat() {
+        return "Todo," + super.taskDescriptor + "," + super.isComplete;
     }
 
     private String descriptorProcessor(String taskDescriptor) throws IncompleteTaskException {

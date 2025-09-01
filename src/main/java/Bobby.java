@@ -1,8 +1,12 @@
 import CustomExceptions.EmptyListException;
 import CustomExceptions.IncompleteTaskException;
 import CustomExceptions.NoSuchTaskException;
-import TextTypes.*;
-import ListManager.*;
+
+import TextTypes.Text;
+import TextTypes.EndText;
+import TextTypes.StartText;
+
+import ListManager.ListManager;
 
 import java.util.Scanner;
 
@@ -49,6 +53,7 @@ public class Bobby {
     }
 
     public void endChat() {
+        listManager.saveTasks();
         generateResponse(new EndText());
         isRunning = false;
     }
