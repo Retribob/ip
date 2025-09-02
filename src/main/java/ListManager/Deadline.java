@@ -2,8 +2,14 @@ package ListManager;
 
 import CustomExceptions.IncompleteTaskException;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+
+
 public class Deadline extends Task{
     private String deadline;
+    private LocalDate date;
 
     public Deadline(String taskDescriptor) throws IncompleteTaskException {
         super(taskDescriptor);
@@ -24,7 +30,7 @@ public class Deadline extends Task{
     }
 
     public String getDeadline() {
-        return "(by: " + this.deadline + ")";
+        return "(by: " + date.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ")";
     }
 
     private String descriptorProcessor(String taskDescriptor) throws IncompleteTaskException {
@@ -38,6 +44,7 @@ public class Deadline extends Task{
             //split again the separate the deadline keyword and the task name
             if (words.length > 1) {
                 this.deadline = words[1];
+                date = LocalDate.parse(this.deadline);
                 return words[0].split(" ", 2)[1];
             } else {
                 throw new IncompleteTaskException("Please add a deadline.\n Example: deadline go home /by 2pm");
