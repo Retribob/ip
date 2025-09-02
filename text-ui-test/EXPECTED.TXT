@@ -15,35 +15,36 @@ Do remember to take care of your health.
 You have 3 tasks in list, 0 completed 3 uncompleted.
 ________________________________________________________
 1.[T][ ] Go to School
-2.[D][ ] Submit Homework (by: 26th September 2025)
-3.[E][ ] Career fair (from: 5th December to: 6th December 2025)
+2.[D][ ] Submit Homework (by: Sep 12 2025)
+3.[E][ ] Career fair (from: Dec 5 2025 to: Dec 6 2025)
 ________________________________________________________
 You have marked this task.
 [T][X] Go to School
 ________________________________________________________
 You have marked this task.
-[D][X] Submit Homework (by: 26th September 2025)
+[D][X] Submit Homework (by: Sep 12 2025)
 ________________________________________________________
 You have marked this task.
-[E][X] Career fair (from: 5th December to: 6th December 2025)
+[E][X] Career fair (from: Dec 5 2025 to: Dec 6 2025)
 ________________________________________________________
 You have unmarked this task.
 [T][ ] Go to School
 ________________________________________________________
 You have unmarked this task.
-[D][ ] Submit Homework (by: 26th September 2025)
+[D][ ] Submit Homework (by: Sep 12 2025)
 ________________________________________________________
 You have unmarked this task.
-[E][ ] Career fair (from: 5th December to: 6th December 2025)
+[E][ ] Career fair (from: Dec 5 2025 to: Dec 6 2025)
 ________________________________________________________
 Task Added: Go Home
 Do remember to take care of your health.
 You have 4 tasks in list, 0 completed 4 uncompleted.
 ________________________________________________________
 1.[T][ ] Go to School
-2.[D][ ] Submit Homework (by: 26th September 2025)
-3.[E][ ] Career fair (from: 5th December to: 6th December 2025)
+2.[D][ ] Submit Homework (by: Sep 12 2025)
+3.[E][ ] Career fair (from: Dec 5 2025 to: Dec 6 2025)
 4.[T][ ] Go Home
 ________________________________________________________
 Saving tasks
 Goodbye...
+
