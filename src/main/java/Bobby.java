@@ -53,7 +53,7 @@ public class Bobby {
     }
 
     public void endChat() {
-        listManager.saveTasks();
+        listManager.closeList();
         generateResponse(new EndText());
         isRunning = false;
     }
