@@ -2,9 +2,15 @@ package ListManager;
 
 import CustomExceptions.IncompleteTaskException;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+
 public class Event extends Task{
     private String start;
     private String end;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     public Event(String taskDescriptor) throws IncompleteTaskException{
         super(taskDescriptor);
@@ -25,8 +31,8 @@ public class Event extends Task{
     }
 
     public String getEventPeriod() {
-        return "(from: " + start
-                + " to: " + end + ")";
+        return "(from: " + startDate.format(DateTimeFormatter.ofPattern("MMM d yyyy"))
+                + " to: " + endDate.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ")";
     }
 
     private String descriptorProcessor(String taskDescriptor) throws IncompleteTaskException {
@@ -41,6 +47,8 @@ public class Event extends Task{
             if (words.length > 1) {
                 this.start = words[1].split(" /to ")[0];
                 this.end = words[1].split(" /to ")[1];
+                this.startDate = LocalDate.parse(this.start);
+                this.endDate = LocalDate.parse(this.end);
                 return words[0].split(" ", 2)[1];
             } else {
                 throw new IncompleteTaskException("please include start and end time using /from and /to for events");
