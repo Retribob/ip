@@ -1,6 +1,6 @@
-package ListManager;
+package listManager;
 
-import CustomExceptions.IncompleteTaskException;
+import customExceptions.IncompleteTaskException;
 
 public class Task {
     protected String taskDescriptor;

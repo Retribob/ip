@@ -1,7 +1,7 @@
-package TaskStorage;
+package taskStorage;
 
-import CustomExceptions.IncompleteTaskException;
-import ListManager.Task;
+import customExceptions.IncompleteTaskException;
+import listManager.Task;
 
 import java.io.File;
 import java.io.FileNotFoundException;

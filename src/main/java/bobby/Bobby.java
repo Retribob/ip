@@ -1,9 +1,10 @@
+package bobby;
 
-import ListManager.ListManager;
+import listManager.ListManager;
 
-import UIManager.UI;
+import uiManager.UI;
 
-import Parser.Parser;
+import parser.Parser;
 
 import java.util.Scanner;
 

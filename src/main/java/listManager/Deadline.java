@@ -1,10 +1,9 @@
-package ListManager;
+package listManager;
 
-import CustomExceptions.IncompleteTaskException;
+import customExceptions.IncompleteTaskException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 
 
 public class Deadline extends Task{

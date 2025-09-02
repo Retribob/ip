@@ -1,8 +1,8 @@
-package UIManager;
+package uiManager;
 
-import TextTypes.Text;
-import TextTypes.EndText;
-import TextTypes.StartText;
+import textTypes.Text;
+import textTypes.EndText;
+import textTypes.StartText;
 
 public class UI {
 

@@ -1,4 +1,4 @@
-package CustomExceptions;
+package customExceptions;
 
 public class EmptyListException extends Exception{
     public EmptyListException(String message) {

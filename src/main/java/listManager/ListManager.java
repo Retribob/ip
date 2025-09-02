@@ -1,11 +1,11 @@
-package ListManager;
+package listManager;
 
 
-import TaskStorage.TaskStorage;
+import taskStorage.TaskStorage;
 
-import CustomExceptions.EmptyListException;
-import CustomExceptions.IncompleteTaskException;
-import CustomExceptions.NoSuchTaskException;
+import customExceptions.EmptyListException;
+import customExceptions.IncompleteTaskException;
+import customExceptions.NoSuchTaskException;
 
 import java.util.Iterator;
 import java.util.List;
