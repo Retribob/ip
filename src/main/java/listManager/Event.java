@@ -34,7 +34,7 @@ public class Event extends Task{
                 + " to: " + endDate.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ")";
     }
 
-    private String descriptorProcessor(String taskDescriptor) throws IncompleteTaskException {
+    public String descriptorProcessor(String taskDescriptor) throws IncompleteTaskException {
         String[] words = taskDescriptor.split(" ", 2);
         if (words.length != 2) {
             throw new IncompleteTaskException("please include the task name, thank you.");
