@@ -2,6 +2,9 @@ package listManager;
 
 import customExceptions.IncompleteTaskException;
 
+/**
+ * Subtype of <code>Task</code>, it just has a task name.
+ */
 public class Todo extends Task{
 
     public Todo(String taskDescriptor) throws IncompleteTaskException{
@@ -9,6 +12,10 @@ public class Todo extends Task{
         super.taskName = descriptorProcessor(taskDescriptor);
     }
 
+    /**
+     * Returns task name with status in string format.
+     * @return String containing task name and completion status.
+     */
     @Override
     public String getTaskWithStatus() {
         return "[T]"
@@ -16,11 +23,24 @@ public class Todo extends Task{
                 + getName();
     }
 
+    /**
+     * Converts task to string format for storing to file.
+     *
+     * @return String that contains information of the task for storing.
+     */
     @Override
     public String toStringFormat() {
         return "Todo," + super.taskDescriptor + "," + super.isComplete;
     }
 
+
+    /**
+     * Processes taskDescriptor and splits it into task name.
+     *
+     * @param taskDescriptor String of user input passed into constructor.
+     * @return Task name in string format.
+     * @throws IncompleteTaskException If taskDescriptor is in known format but incomplete.
+     */
     public String descriptorProcessor(String taskDescriptor) throws IncompleteTaskException {
         String[] words = taskDescriptor.split(" ", 2);
         if (words.length != 2) {

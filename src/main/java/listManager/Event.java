@@ -5,6 +5,10 @@ import customExceptions.IncompleteTaskException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Subtype of <code>Task</code>, aside from a task name
+ * it also has a start and end date
+ */
 public class Event extends Task{
     private String start;
     private String end;
@@ -16,6 +20,12 @@ public class Event extends Task{
         super.taskName = descriptorProcessor(taskDescriptor);
     }
 
+    /**
+     * Displays event task in string format with
+     * completion status and start and end date.
+     *
+     * @return Task name with status and start and end date in string format.
+     */
     @Override
     public String getTaskWithStatus() {
         return "[E]"
@@ -24,16 +34,29 @@ public class Event extends Task{
                 + getEventPeriod();
     }
 
+    /**
+     * Converts task to string format for storing to file.
+     *
+     * @return String that contains information of the task for storing.
+     */
     @Override
     public String toStringFormat() {
         return "Event," + super.taskDescriptor + "," + super.isComplete;
     }
+
 
     public String getEventPeriod() {
         return "(from: " + startDate.format(DateTimeFormatter.ofPattern("MMM d yyyy"))
                 + " to: " + endDate.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ")";
     }
 
+    /**
+     * Processes taskDescriptor and splits it into task name and start and end date.
+     *
+     * @param taskDescriptor String of user input passed into constructor.
+     * @return Task name in string format.
+     * @throws IncompleteTaskException If taskDescriptor is in known format but incomplete.
+     */
     public String descriptorProcessor(String taskDescriptor) throws IncompleteTaskException {
         String[] words = taskDescriptor.split(" ", 2);
         if (words.length != 2) {

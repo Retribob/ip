@@ -10,8 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Stores <code>Task</code> objects in the task list to a file
+ * Can load in tasks from an external file.
+ */
 public class TaskStorage {
 
+    /**
+     * Saves currently stored <code>Task</code> objects to a file in string format.
+     *
+     * @param taskList List containing stored <code>Task</code> objects.
+     */
     public void saveTasks(List<Task> taskList) {
         System.out.println("Saving tasks");
         try ( PrintWriter writer = new PrintWriter("Tasks.txt")){
@@ -23,6 +32,11 @@ public class TaskStorage {
         }
     }
 
+    /**
+     * Load tasks from a file.
+     * Prints "File not found" if no file exists.
+     * @return A <code>List</code> object containing <code>Task</code> objects.
+     */
     public List<Task> loadTasks() {
         List<Task> taskList = new ArrayList<Task>();
         try (Scanner scanner = new Scanner(new File("Tasks.txt"))) {

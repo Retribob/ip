@@ -11,7 +11,11 @@ import java.util.Iterator;
 import java.util.List;
 
 
-
+/**
+ * Stores <code>Task</code> objects in a <code>List</code> taskList.
+ * Tracks taskCount, completedTasks and uncompletedTasks.
+ * Contains <code>TaskStorage</code> object which saves stored tasks to a file on end.
+ */
 public class ListManager {
     private List<Task> taskList;
     private static int taskCount = 0;
@@ -20,11 +24,22 @@ public class ListManager {
 
     private TaskStorage taskStorage;
 
+    /**
+     *Initializes <code>TaskStorage</code> instance.
+     * Checks for existing save file and stores to <code>TaskList</code> object.
+     */
     public ListManager() {
         taskStorage = new TaskStorage();
         taskList = taskStorage.loadTasks();
     }
 
+    /**
+     * Adds a task to the <code>TaskList</code> based on the input string.
+     *
+     * @param task task description in string format.
+     * @throws NoSuchTaskException If task description doesn't match any known format.
+     * @throws IncompleteTaskException If task description matches known format but is incomplete.
+     */
     public void add(String task) throws NoSuchTaskException, IncompleteTaskException{
         Task taskType = taskClassifier(task);
         taskList.add(taskType);
@@ -36,6 +51,12 @@ public class ListManager {
                            + uncompletedTasks + " uncompleted.");
     }
 
+    /**
+     * Displays the currently stored tasks in <code>TaskList</code>.
+     * The task status along with the task name and relevant information is shown.
+     *
+     * @throws EmptyListException If the list is empty
+     */
     public void displayList() throws EmptyListException {
         if (taskList.isEmpty()) {
             throw new EmptyListException("There are no tasks to display, please input some tasks");
@@ -49,6 +70,13 @@ public class ListManager {
         }
     }
 
+    /**
+     * Updates completion status of the task at the specified index
+     *
+     * @param status True to set task as complete, false to set task as incomplete.
+     * @param index The task number in the List.
+     * @throws NoSuchTaskException If index > taskList.size().
+     */
     public void updateTask(boolean status, int index) throws NoSuchTaskException{
         if (index > taskList.size() - 1) {
             throw new NoSuchTaskException("There is no task corresponding to the number" + (index + 1));
@@ -66,6 +94,12 @@ public class ListManager {
                             + task.getTaskWithStatus());
     }
 
+    /**
+     * Deletes the task at the specified index.
+     *
+     * @param index The task number in the list.
+     * @throws NoSuchTaskException If index > taskList.size().
+     */
     public void deleteTasks(int index) throws NoSuchTaskException{
         if (index > taskList.size() - 1) {
             throw new NoSuchTaskException("There is no task corresponding to the number" + (index + 1));
@@ -74,7 +108,15 @@ public class ListManager {
         System.out.println("You have deleted " + deletedTask.getTaskWithStatus());
     }
 
-
+    /**
+     * Classifies the task into one of three types:
+     * <code>Todo</code>, <code>Deadline</code>, <code>Event</code>.
+     *
+     * @param task Task descriptor in <code>String</code> format.
+     * @return <code>Task</code> object that has been initialized as one of the three types.
+     * @throws NoSuchTaskException If task descriptor does not match known format.
+     * @throws IncompleteTaskException If task descriptor matches known format but is incomplete.
+     */
     public Task taskClassifier(String task) throws NoSuchTaskException, IncompleteTaskException{
         //split the task string into keywords
         String[] taskKeyWords = task.split(" ", 2);
@@ -92,6 +134,9 @@ public class ListManager {
         }
     }
 
+    /**
+     * Calls taskStorage to save currently stored tasks.
+     */
     public void closeList() {
         taskStorage.saveTasks(taskList);
     }
