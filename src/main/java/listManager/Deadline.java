@@ -5,7 +5,10 @@ import customExceptions.IncompleteTaskException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-
+/**
+ * Subtype of <code>Task</code>, aside from a task name
+ * it also has a deadline date.
+ */
 public class Deadline extends Task{
     private String deadline;
     private LocalDate date;
@@ -15,6 +18,11 @@ public class Deadline extends Task{
         super.taskName = descriptorProcessor(taskDescriptor);
     }
 
+    /**
+     * Displays deadline task in String format complete with status and deadline.
+     *
+     * @return Task name, with completion status and deadline.
+     */
     @Override
     public String getTaskWithStatus() {
         return "[D]"
@@ -23,6 +31,11 @@ public class Deadline extends Task{
                 + getDeadline();
     }
 
+    /**
+     * Converts task to a String format for storage.
+     *
+     * @return String to be stored into save file.
+     */
     @Override
     public String toStringFormat() {
         return "Deadline," + super.taskDescriptor + "," + super.isComplete;
@@ -32,6 +45,13 @@ public class Deadline extends Task{
         return "(by: " + date.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ")";
     }
 
+    /**
+     * Processes taskDescriptor and splits it into task name and deadline time.
+     *
+     * @param taskDescriptor String of user input passed into constructor.
+     * @return Task name in string format.
+     * @throws IncompleteTaskException If taskDescriptor is in known format but incomplete.
+     */
     public String descriptorProcessor(String taskDescriptor) throws IncompleteTaskException {
         String[] words = taskDescriptor.split(" ", 2);
         if (words.length != 2) {

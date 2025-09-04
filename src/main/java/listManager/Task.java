@@ -2,6 +2,10 @@ package listManager;
 
 import customExceptions.IncompleteTaskException;
 
+/**
+ * Task object stores information of the task such as taskDescriptor and taskName.
+ * Tracks completion of task using boolean isComplete.
+ */
 public class Task {
     protected String taskDescriptor;
     protected boolean isComplete;
@@ -11,12 +15,20 @@ public class Task {
         this.taskDescriptor = taskDescriptor;
     }
 
-    //converts object to string for saving to a file
+
     public String toStringFormat() {
         return taskName + "," + isComplete;
     }
 
-    //Create object from string
+
+    /**
+     * Public method which converts file string output to a <code>Task</code>.
+     * Used for reading external files and generating the corresponding <code>Task</code> object.
+     *
+     * @param fileOutput String containing information on stored <code>Task</code>.
+     * @return <code>Task</code> object that was stored.
+     * @throws IncompleteTaskException If fileOutput is corrupted.
+     */
     public static Task stringToTask(String fileOutput) throws IncompleteTaskException {
         String[] words = fileOutput.split(",");
         String taskType = words[0];

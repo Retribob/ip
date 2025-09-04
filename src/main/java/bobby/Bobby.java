@@ -8,7 +8,12 @@ import parser.Parser;
 
 import java.util.Scanner;
 
-
+/**
+ * A Chatbot that stores tasks. <code>Bobby</code> consists of a
+ * <code>ListManager</code> that stores tasks, <code>UI</code> object that
+ * manages responses and  a <code>Parser</code> that handles user input.
+ *
+ */
 public class Bobby {
     private static boolean isRunning;
     private Scanner scanner;
@@ -16,6 +21,10 @@ public class Bobby {
     private Parser parser;
     private UI ui;
 
+    /**
+     * Sets isRunning to true.
+     * Initializes ListManager, parser and ui instances.
+     */
     public Bobby() {
         isRunning = true;
         parser = new Parser();
@@ -23,7 +32,10 @@ public class Bobby {
         ui = new UI();
     }
 
-
+    /**
+     * Sets boolean isRunning to false.
+     * Closes UI and ListManager instances.
+     */
     public void endChat() {
         listManager.closeList();
         ui.onEnd();
