@@ -11,12 +11,12 @@ import java.util.Scanner;
 public class Parser {
     private Scanner scanner;
 
-
     public Parser() {
         scanner = new Scanner(System.in);
     }
 
-    public boolean parseInput(ListManager listManager) throws NoSuchTaskException, IncompleteTaskException, EmptyListException {
+    public boolean parseInput(ListManager listManager)
+            throws NoSuchTaskException, IncompleteTaskException, EmptyListException {
         String userText;
         userText = scanner.nextLine();
         String[] words = userText.split(" ");

@@ -6,11 +6,12 @@ import listManager.Task;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class TaskStorage {
+public class TaskSaver {
 
     public void saveTasks(List<Task> taskList) {
         System.out.println("Saving tasks");

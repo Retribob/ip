@@ -1,7 +1,6 @@
 package listManager;
 
-
-import taskStorage.TaskStorage;
+import taskStorage.TaskSaver;
 
 import customExceptions.EmptyListException;
 import customExceptions.IncompleteTaskException;
@@ -18,11 +17,11 @@ public class ListManager {
     private static int completedTasks = 0;
     private static int uncompletedTasks = 0;
 
-    private TaskStorage taskStorage;
+    private TaskSaver taskSaver;
 
     public ListManager() {
-        taskStorage = new TaskStorage();
-        taskList = taskStorage.loadTasks();
+        taskSaver = new TaskSaver();
+        taskList = taskSaver.loadTasks();
     }
 
     public void add(String task) throws NoSuchTaskException, IncompleteTaskException{
@@ -49,20 +48,20 @@ public class ListManager {
         }
     }
 
-    public void updateTask(boolean status, int index) throws NoSuchTaskException{
+    public void updateTask(boolean isComplete, int index) throws NoSuchTaskException{
         if (index > taskList.size() - 1) {
             throw new NoSuchTaskException("There is no task corresponding to the number" + (index + 1));
         }
         Task task = taskList.get(index);
-        task.changeStatus(status);
-        if (status) {
+        task.changeStatus(isComplete);
+        if (isComplete) {
             completedTasks++;
             uncompletedTasks--;
         } else {
             uncompletedTasks++;
             completedTasks--;
         }
-        System.out.println("You have " + (status ? "marked" : "unmarked") + " this task.\n"
+        System.out.println("You have " + (isComplete ? "marked" : "unmarked") + " this task.\n"
                             + task.getTaskWithStatus());
     }
 
@@ -93,7 +92,7 @@ public class ListManager {
     }
 
     public void closeList() {
-        taskStorage.saveTasks(taskList);
+        taskSaver.saveTasks(taskList);
     }
 
 
