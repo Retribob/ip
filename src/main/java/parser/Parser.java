@@ -53,8 +53,11 @@ public class Parser {
             listManager.updateTask(true, Integer.parseInt(words[1]) - 1);
         } else if (words[0].equals("delete")){
             listManager.deleteTasks(Integer.parseInt(words[1]) - 1);
+        } else if (words[0].equals("find")) {
+            listManager.findTasks(userText);
         } else {
             listManager.add(userText);
+
         }
         return true;
     }

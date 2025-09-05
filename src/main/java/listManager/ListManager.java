@@ -1,6 +1,7 @@
 package listManager;
 
 import taskStorage.TaskSaver;
+import taskFinder.TaskFinder;
 
 import customExceptions.EmptyListException;
 import customExceptions.IncompleteTaskException;
@@ -22,14 +23,16 @@ public class ListManager {
     private static int uncompletedTasks = 0;
 
     private TaskSaver taskSaver;
+    private TaskFinder taskFinder;
 
     /**
-     *Initializes <code>TaskStorage</code> instance.
+     *Initializes <code>TaskStorage</code> and <code>TaskFinder</code> instance.
      * Checks for existing save file and stores to <code>TaskList</code> object.
      */
     public ListManager() {
         taskSaver = new TaskSaver();
         taskList = taskSaver.loadTasks();
+        taskFinder = new TaskFinder();
     }
 
     /**
@@ -105,6 +108,15 @@ public class ListManager {
         }
         Task deletedTask = taskList.remove(index);
         System.out.println("You have deleted " + deletedTask.getTaskWithStatus());
+    }
+
+    /**
+     * Calls TaskFinder class to filter list by keyword.
+     *
+     * @param userInput The find command issued by the user.
+     */
+    public void findTasks(String userInput) throws EmptyListException{
+        taskFinder.setFilteredList(taskList, userInput);
     }
 
     /**
