@@ -1,7 +1,6 @@
 package listManager;
 
-
-import taskStorage.TaskStorage;
+import taskStorage.TaskSaver;
 
 import customExceptions.EmptyListException;
 import customExceptions.IncompleteTaskException;
@@ -22,15 +21,15 @@ public class ListManager {
     private static int completedTasks = 0;
     private static int uncompletedTasks = 0;
 
-    private TaskStorage taskStorage;
+    private TaskSaver taskSaver;
 
     /**
      *Initializes <code>TaskStorage</code> instance.
      * Checks for existing save file and stores to <code>TaskList</code> object.
      */
     public ListManager() {
-        taskStorage = new TaskStorage();
-        taskList = taskStorage.loadTasks();
+        taskSaver = new TaskSaver();
+        taskList = taskSaver.loadTasks();
     }
 
     /**
@@ -73,24 +72,24 @@ public class ListManager {
     /**
      * Updates completion status of the task at the specified index
      *
-     * @param status True to set task as complete, false to set task as incomplete.
+     * @param isComplete True to set task as complete, false to set task as incomplete.
      * @param index The task number in the List.
      * @throws NoSuchTaskException If index > taskList.size().
      */
-    public void updateTask(boolean status, int index) throws NoSuchTaskException{
+    public void updateTask(boolean isComplete, int index) throws NoSuchTaskException{
         if (index > taskList.size() - 1) {
             throw new NoSuchTaskException("There is no task corresponding to the number" + (index + 1));
         }
         Task task = taskList.get(index);
-        task.changeStatus(status);
-        if (status) {
+        task.changeStatus(isComplete);
+        if (isComplete) {
             completedTasks++;
             uncompletedTasks--;
         } else {
             uncompletedTasks++;
             completedTasks--;
         }
-        System.out.println("You have " + (status ? "marked" : "unmarked") + " this task.\n"
+        System.out.println("You have " + (isComplete ? "marked" : "unmarked") + " this task.\n"
                             + task.getTaskWithStatus());
     }
 
@@ -135,10 +134,10 @@ public class ListManager {
     }
 
     /**
-     * Calls taskStorage to save currently stored tasks.
+     * Calls taskSaver to save currently stored tasks.
      */
     public void closeList() {
-        taskStorage.saveTasks(taskList);
+        taskSaver.saveTasks(taskList);
     }
 
 

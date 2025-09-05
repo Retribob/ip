@@ -37,7 +37,8 @@ public class Parser {
      * @throws IncompleteTaskException If taskDescriptor in input matches known format but is incomplete.
      * @throws EmptyListException If user wants to display taskList but there are no tasks.
      */
-    public boolean parseInput(ListManager listManager) throws NoSuchTaskException, IncompleteTaskException, EmptyListException {
+    public boolean parseInput(ListManager listManager)
+            throws NoSuchTaskException, IncompleteTaskException, EmptyListException {
         String userText;
         userText = scanner.nextLine();
         String[] words = userText.split(" ");

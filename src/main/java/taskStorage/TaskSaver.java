@@ -6,6 +6,7 @@ import listManager.Task;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -14,7 +15,7 @@ import java.util.Scanner;
  * Stores <code>Task</code> objects in the task list to a file
  * Can load in tasks from an external file.
  */
-public class TaskStorage {
+public class TaskSaver {
 
     /**
      * Saves currently stored <code>Task</code> objects to a file in string format.

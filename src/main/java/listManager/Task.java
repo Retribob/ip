@@ -65,7 +65,7 @@ public class Task {
         }
     }
 
-    public void changeStatus(boolean status) {
-        this.isComplete = status;
+    public void changeStatus(boolean isComplete) {
+        this.isComplete = isComplete;
     }
 }
