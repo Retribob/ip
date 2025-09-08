@@ -1,10 +1,10 @@
 package parser;
 
-import customExceptions.EmptyListException;
-import customExceptions.IncompleteTaskException;
-import customExceptions.NoSuchTaskException;
+import customexceptions.EmptyListException;
+import customexceptions.IncompleteTaskException;
+import customexceptions.NoSuchTaskException;
 
-import listManager.ListManager;
+import listmanager.ListManager;
 
 import java.util.Scanner;
 

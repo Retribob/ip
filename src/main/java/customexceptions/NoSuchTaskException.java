@@ -1,4 +1,4 @@
-package customExceptions;
+package customexceptions;
 
 public class NoSuchTaskException extends Exception {
     public NoSuchTaskException(String m) {

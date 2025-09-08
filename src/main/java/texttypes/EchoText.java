@@ -1,4 +1,4 @@
-package textTypes;
+package texttypes;
 
 public class EchoText extends Text {
     private String echo;

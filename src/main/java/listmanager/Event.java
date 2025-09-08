@@ -1,6 +1,6 @@
-package listManager;
+package listmanager;
 
-import customExceptions.IncompleteTaskException;
+import customexceptions.IncompleteTaskException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

@@ -1,4 +1,4 @@
-package textTypes;
+package texttypes;
 
 public class EndText extends Text {
     @Override

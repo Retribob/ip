@@ -1,6 +1,6 @@
-package listManager;
+package listmanager;
 
-import customExceptions.IncompleteTaskException;
+import customexceptions.IncompleteTaskException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

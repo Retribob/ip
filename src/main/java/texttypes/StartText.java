@@ -1,4 +1,4 @@
-package textTypes;
+package texttypes;
 
 public class StartText extends Text {
     @Override

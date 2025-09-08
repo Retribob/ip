@@ -1,6 +1,6 @@
-package listManager;
+package listmanager;
 
-import customExceptions.IncompleteTaskException;
+import customexceptions.IncompleteTaskException;
 
 /**
  * Subtype of <code>Task</code>, it just has a task name.
