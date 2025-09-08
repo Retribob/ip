@@ -1,7 +1,7 @@
-package taskFinder;
+package taskfinder;
 
-import customExceptions.EmptyListException;
-import listManager.Task;
+import customexceptions.EmptyListException;
+import listmanager.Task;
 
 import java.util.ArrayList;
 import java.util.Iterator;

@@ -1,6 +1,6 @@
-package listManager;
+package listmanager;
 
-import customExceptions.IncompleteTaskException;
+import customexceptions.IncompleteTaskException;
 
 /**
  * Task object stores information of the task such as taskDescriptor and taskName.

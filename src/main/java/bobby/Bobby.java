@@ -1,8 +1,8 @@
 package bobby;
 
-import listManager.ListManager;
+import listmanager.ListManager;
 
-import uiManager.UI;
+import uimanager.UI;
 
 import parser.Parser;
 

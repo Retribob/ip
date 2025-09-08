@@ -1,4 +1,4 @@
-package customExceptions;
+package customexceptions;
 
 public class IncompleteTaskException extends Exception {
     public IncompleteTaskException(String m) {
