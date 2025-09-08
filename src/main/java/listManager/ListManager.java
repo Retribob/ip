@@ -1,15 +1,14 @@
 package listManager;
 
-import taskStorage.TaskSaver;
 import taskFinder.TaskFinder;
+import taskStorage.TaskSaver;
 
 import customExceptions.EmptyListException;
 import customExceptions.IncompleteTaskException;
 import customExceptions.NoSuchTaskException;
 
-import java.util.Iterator;
 import java.util.List;
-
+import java.util.Iterator;
 
 /**
  * Stores <code>Task</code> objects in a <code>List</code> taskList.
@@ -18,15 +17,15 @@ import java.util.List;
  */
 public class ListManager {
     private List<Task> taskList;
-    private static int taskCount = 0;
     private static int completedTasks = 0;
+    private static int taskCount = 0;
     private static int uncompletedTasks = 0;
 
     private TaskSaver taskSaver;
     private TaskFinder taskFinder;
 
     /**
-     *Initializes <code>TaskStorage</code> and <code>TaskFinder</code> instance.
+     * Initializes <code>TaskStorage</code> and <code>TaskFinder</code> instance.
      * Checks for existing save file and stores to <code>TaskList</code> object.
      */
     public ListManager() {
@@ -42,7 +41,7 @@ public class ListManager {
      * @throws NoSuchTaskException If task description doesn't match any known format.
      * @throws IncompleteTaskException If task description matches known format but is incomplete.
      */
-    public void add(String task) throws NoSuchTaskException, IncompleteTaskException{
+    public void add(String task) throws NoSuchTaskException, IncompleteTaskException {
         Task taskType = taskClassifier(task);
         taskList.add(taskType);
         taskCount += 1;
@@ -65,7 +64,7 @@ public class ListManager {
         }
         Iterator<Task> iterator = taskList.iterator();
         int count = 1;
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             Task task = iterator.next();
             System.out.println(count + "." + task.getTaskWithStatus());
             count++;
@@ -79,7 +78,7 @@ public class ListManager {
      * @param index The task number in the List.
      * @throws NoSuchTaskException If index > taskList.size().
      */
-    public void updateTask(boolean isComplete, int index) throws NoSuchTaskException{
+    public void updateTask(boolean isComplete, int index) throws NoSuchTaskException {
         if (index > taskList.size() - 1) {
             throw new NoSuchTaskException("There is no task corresponding to the number" + (index + 1));
         }
@@ -102,7 +101,7 @@ public class ListManager {
      * @param index The task number in the list.
      * @throws NoSuchTaskException If index > taskList.size().
      */
-    public void deleteTasks(int index) throws NoSuchTaskException{
+    public void deleteTasks(int index) throws NoSuchTaskException {
         if (index > taskList.size() - 1) {
             throw new NoSuchTaskException("There is no task corresponding to the number" + (index + 1));
         }
@@ -115,7 +114,7 @@ public class ListManager {
      *
      * @param userInput The find command issued by the user.
      */
-    public void findTasks(String userInput) throws EmptyListException{
+    public void findTasks(String userInput) throws EmptyListException {
         taskFinder.setFilteredList(taskList, userInput);
     }
 
@@ -128,7 +127,7 @@ public class ListManager {
      * @throws NoSuchTaskException If task descriptor does not match known format.
      * @throws IncompleteTaskException If task descriptor matches known format but is incomplete.
      */
-    public Task taskClassifier(String task) throws NoSuchTaskException, IncompleteTaskException{
+    public Task taskClassifier(String task) throws NoSuchTaskException, IncompleteTaskException {
         //split the task string into keywords
         String[] taskKeyWords = task.split(" ", 2);
 
@@ -138,7 +137,7 @@ public class ListManager {
             return new Todo(task);
         } else if (taskKeyWords[0].equals("deadline")) {
             return new Deadline(task);
-        } else if (taskKeyWords[0].equals("event")){
+        } else if (taskKeyWords[0].equals("event")) {
             return new Event(task);
         } else {
             throw new NoSuchTaskException("Sorry I don't recognize this task, can you please use the keywords?");

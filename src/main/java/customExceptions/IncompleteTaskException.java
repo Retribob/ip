@@ -1,6 +1,6 @@
 package customExceptions;
 
-public class IncompleteTaskException extends Exception{
+public class IncompleteTaskException extends Exception {
     public IncompleteTaskException(String m) {
         super(m);
     }

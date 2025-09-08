@@ -1,6 +1,6 @@
 package textTypes;
 
-public class EchoText extends Text{
+public class EchoText extends Text {
     private String echo;
 
     public EchoText(String echo) {

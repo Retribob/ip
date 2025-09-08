@@ -1,6 +1,6 @@
 package customExceptions;
 
-public class UnknownInputException extends Exception{
+public class UnknownInputException extends Exception {
     public UnknownInputException(String m) {
         super(m);
     }

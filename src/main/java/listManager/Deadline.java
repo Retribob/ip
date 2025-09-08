@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
  * Subtype of <code>Task</code>, aside from a task name
  * it also has a deadline date.
  */
-public class Deadline extends Task{
+public class Deadline extends Task {
     private String deadline;
     private LocalDate date;
 

@@ -24,7 +24,7 @@ public class TaskSaver {
      */
     public void saveTasks(List<Task> taskList) {
         System.out.println("Saving tasks");
-        try ( PrintWriter writer = new PrintWriter("Tasks.txt")){
+        try (PrintWriter writer = new PrintWriter("Tasks.txt")) {
             for (Task task : taskList) {
                 writer.println(task.toStringFormat());
             }
@@ -41,7 +41,7 @@ public class TaskSaver {
     public List<Task> loadTasks() {
         List<Task> taskList = new ArrayList<Task>();
         try (Scanner scanner = new Scanner(new File("Tasks.txt"))) {
-            while(scanner.hasNextLine()) {
+            while (scanner.hasNextLine()) {
                 String taskLine = scanner.nextLine().trim(); //remove trailing spaces to fix error
                 if (!taskLine.isEmpty()) {
                     taskList.add(Task.stringToTask(taskLine));

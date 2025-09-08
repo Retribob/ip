@@ -23,7 +23,7 @@ public class Parser {
     }
 
     /**
-     *Scans nextline to obtain userInput.
+     * Scans nextline to obtain userInput.
      * Breaks down user input into chunks to perform certain actions:
      * Can end chatbot conversation.
      * Can display list.
@@ -51,7 +51,7 @@ public class Parser {
         } else if (words[0].equals("mark")) {
             words = userText.split(" ");
             listManager.updateTask(true, Integer.parseInt(words[1]) - 1);
-        } else if (words[0].equals("delete")){
+        } else if (words[0].equals("delete")) {
             listManager.deleteTasks(Integer.parseInt(words[1]) - 1);
         } else if (words[0].equals("find")) {
             listManager.findTasks(userText);

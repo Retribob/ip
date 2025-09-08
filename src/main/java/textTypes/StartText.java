@@ -1,9 +1,9 @@
 package textTypes;
 
-public class StartText extends Text{
+public class StartText extends Text {
     @Override
     public String getText() {
-        return "Hello! My name is bobby.Bobby,\n" +
-                "pleased to meet you.";
+        return "Hello! My name is bobby.Bobby,\n"
+                + "pleased to meet you.";
     }
 }

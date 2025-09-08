@@ -5,9 +5,9 @@ import customExceptions.IncompleteTaskException;
 /**
  * Subtype of <code>Task</code>, it just has a task name.
  */
-public class Todo extends Task{
+public class Todo extends Task {
 
-    public Todo(String taskDescriptor) throws IncompleteTaskException{
+    public Todo(String taskDescriptor) throws IncompleteTaskException {
         super(taskDescriptor);
         super.taskName = descriptorProcessor(taskDescriptor);
     }

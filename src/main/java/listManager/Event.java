@@ -9,13 +9,13 @@ import java.time.format.DateTimeFormatter;
  * Subtype of <code>Task</code>, aside from a task name
  * it also has a start and end date
  */
-public class Event extends Task{
+public class Event extends Task {
     private String start;
     private String end;
     private LocalDate startDate;
     private LocalDate endDate;
 
-    public Event(String taskDescriptor) throws IncompleteTaskException{
+    public Event(String taskDescriptor) throws IncompleteTaskException {
         super(taskDescriptor);
         super.taskName = descriptorProcessor(taskDescriptor);
     }

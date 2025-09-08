@@ -20,7 +20,7 @@ public class TaskFinder {
      * @param userInput Find command containing search keyword.
      * @throws EmptyListException If taskList is empty.
      */
-    public void setFilteredList(List<Task> taskList, String userInput) throws EmptyListException{
+    public void setFilteredList(List<Task> taskList, String userInput) throws EmptyListException {
         filteredList = new ArrayList<>();
         String keyword = userInput.split(" ")[1];
         if (taskList.isEmpty()) {
