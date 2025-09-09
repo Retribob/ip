@@ -6,20 +6,17 @@ import customexceptions.NoSuchTaskException;
 
 import listmanager.ListManager;
 
-import java.util.Scanner;
 
 /**
  * Uses <code>Scanner</code> object to read userInput
  * and processes it to perform actions.
  */
 public class Parser {
-    private Scanner scanner;
 
     /**
      * Initializes scanner.
      */
     public Parser() {
-        scanner = new Scanner(System.in);
     }
 
     /**
@@ -37,10 +34,10 @@ public class Parser {
      * @throws IncompleteTaskException If taskDescriptor in input matches known format but is incomplete.
      * @throws EmptyListException If user wants to display taskList but there are no tasks.
      */
-    public boolean parseInput(ListManager listManager)
+    public boolean parseInput(ListManager listManager, String input)
             throws NoSuchTaskException, IncompleteTaskException, EmptyListException {
         String userText;
-        userText = scanner.nextLine();
+        userText = input;
         String[] words = userText.split(" ");
         if (userText.equals("bye")) {
             return false;
