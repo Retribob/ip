@@ -15,17 +15,20 @@ import java.io.IOException;
 public class Main extends Application {
 
     private Bobby bobby = new Bobby();
-
     @Override
     public void start(Stage stage) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
+
             stage.setScene(scene);
-            fxmlLoader.<MainWindow>getController().setBobby(bobby);  // inject the Duke instance
-            fxmlLoader.<MainWindow>getController().startText();
             stage.show();
+
+            fxmlLoader.<MainWindow>getController().setBobby(bobby);  // inject the Duke instance
+            fxmlLoader.<MainWindow>getController().setParentStage(stage);
+            fxmlLoader.<MainWindow>getController().startText();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

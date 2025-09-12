@@ -1,6 +1,9 @@
 package gui;
 
+
 import bobby.Bobby;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -8,6 +11,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+
+import java.util.Objects;
+
 /**
  * Controller for the main GUI.
  */
@@ -23,8 +31,10 @@ public class MainWindow extends AnchorPane {
 
     private Bobby bobby;
 
-    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
-    private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/DaDuke.png"));
+    private Stage parentStage;
+
+    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaKid.png"));
+    private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/DaBobby.png"));
 
     @FXML
     public void initialize() {
@@ -35,6 +45,10 @@ public class MainWindow extends AnchorPane {
     public void setBobby(Bobby b) {
         bobby = b;
 
+    }
+
+    public void setParentStage(Stage stage) {
+        this.parentStage = stage;
     }
 
     @FXML
@@ -56,10 +70,22 @@ public class MainWindow extends AnchorPane {
     private void handleUserInput() {
         String input = userInput.getText();
         String response = bobby.run(input);
-        dialogContainer.getChildren().addAll(
-                DialogBox.getUserDialog(input, userImage),
-                DialogBox.getDukeDialog(response, dukeImage)
-        );
+        DialogBox userDialog = DialogBox.getUserDialog(input, userImage);
+        DialogBox bobbyDialog = DialogBox.getDukeDialog(response, dukeImage);
+        if (Objects.equals(response, "Goodbye...")) {
+            dialogContainer.getChildren().addAll(userDialog, bobbyDialog);
+            userInput.clear();
+
+            // Close the application after a brief delay to show the goodbye message
+            PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+            pause.setOnFinished(e -> Platform.exit());
+            pause.play();
+            return;
+        }
+        dialogContainer.getChildren().addAll(userDialog, bobbyDialog);
         userInput.clear();
+
+
     }
+
 }
