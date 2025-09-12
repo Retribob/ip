@@ -4,22 +4,20 @@ import customexceptions.EmptyListException;
 import customexceptions.IncompleteTaskException;
 import customexceptions.NoSuchTaskException;
 
+import customexceptions.UnknownInputException;
 import listmanager.ListManager;
 
-import java.util.Scanner;
 
 /**
  * Uses <code>Scanner</code> object to read userInput
  * and processes it to perform actions.
  */
 public class Parser {
-    private Scanner scanner;
 
     /**
      * Initializes scanner.
      */
     public Parser() {
-        scanner = new Scanner(System.in);
     }
 
     /**
@@ -37,28 +35,26 @@ public class Parser {
      * @throws IncompleteTaskException If taskDescriptor in input matches known format but is incomplete.
      * @throws EmptyListException If user wants to display taskList but there are no tasks.
      */
-    public boolean parseInput(ListManager listManager)
-            throws NoSuchTaskException, IncompleteTaskException, EmptyListException {
+    public String parseInput(ListManager listManager, String input)
+            throws NoSuchTaskException, IncompleteTaskException, EmptyListException{
         String userText;
-        userText = scanner.nextLine();
+        userText = input;
         String[] words = userText.split(" ");
         if (userText.equals("bye")) {
-            return false;
+            return userText;
         } else if (userText.equals("list")) {
-            listManager.displayList();
+            return listManager.displayList();
         } else if (words[0].equals("unmark")) {
-            listManager.updateTask(false, Integer.parseInt(words[1]) - 1);
+            return listManager.updateTask(false, Integer.parseInt(words[1]) - 1);
         } else if (words[0].equals("mark")) {
             words = userText.split(" ");
-            listManager.updateTask(true, Integer.parseInt(words[1]) - 1);
+            return listManager.updateTask(true, Integer.parseInt(words[1]) - 1);
         } else if (words[0].equals("delete")) {
-            listManager.deleteTasks(Integer.parseInt(words[1]) - 1);
+            return listManager.deleteTasks(Integer.parseInt(words[1]) - 1);
         } else if (words[0].equals("find")) {
-            listManager.findTasks(userText);
-        } else {
-            listManager.add(userText);
-
+            return listManager.findTasks(userText);
         }
-        return true;
+
+        return listManager.add(userText);
     }
 }

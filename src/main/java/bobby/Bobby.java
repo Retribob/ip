@@ -6,7 +6,8 @@ import uimanager.UI;
 
 import parser.Parser;
 
-import java.util.Scanner;
+import java.util.Objects;
+
 
 /**
  * A Chatbot that stores tasks. <code>Bobby</code> consists of a
@@ -15,8 +16,6 @@ import java.util.Scanner;
  *
  */
 public class Bobby {
-    private static boolean isRunning;
-    private Scanner scanner;
     private ListManager listManager;
     private Parser parser;
     private UI ui;
@@ -26,7 +25,6 @@ public class Bobby {
      * Initializes ListManager, parser and ui instances.
      */
     public Bobby() {
-        isRunning = true;
         parser = new Parser();
         listManager = new ListManager();
         ui = new UI();
@@ -36,29 +34,26 @@ public class Bobby {
      * Sets boolean isRunning to false.
      * Closes UI and ListManager instances.
      */
-    public void endChat() {
+    public String endChat() {
         listManager.closeList();
-        ui.onEnd();
-        isRunning = false;
+        return ui.onEnd();
     }
 
-    private void run() {
-        while (isRunning) {
-            try {
-                boolean isAction = parser.parseInput(listManager);
-                ui.printLine();
 
-                if (!isAction) {
-                    endChat();
-                }
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
+    public String run() {
+        return ui.onStart();
+    }
+
+    public String run(String input) {
+        try {
+            String response = parser.parseInput(listManager, input);
+
+            if (Objects.equals(response, "bye")) {
+                return endChat();
             }
+            return response;
+        } catch (Exception e) {
+            return e.getMessage();
         }
-    }
-
-    public static void main(String[] args) {
-        Bobby chatBot = new Bobby();
-        chatBot.run();
     }
 }

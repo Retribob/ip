@@ -41,15 +41,17 @@ public class ListManager {
      * @throws NoSuchTaskException If task description doesn't match any known format.
      * @throws IncompleteTaskException If task description matches known format but is incomplete.
      */
-    public void add(String task) throws NoSuchTaskException, IncompleteTaskException {
+    public String add(String task) throws NoSuchTaskException, IncompleteTaskException {
+        String returnString;
         Task taskType = taskClassifier(task);
         taskList.add(taskType);
         taskCount += 1;
         uncompletedTasks++;
-        System.out.println("Task Added: " + taskType.getName()
-                           + "\nDo remember to take care of your health."
-                           + "\nYou have " + taskCount + " tasks in list, " + completedTasks + " completed "
-                           + uncompletedTasks + " uncompleted.");
+        returnString = "Task Added: " + taskType.getName()
+                + "\nDo remember to take care of your health."
+                + "\nYou have " + taskCount + " tasks in list, " + completedTasks + " completed "
+                + uncompletedTasks + " uncompleted.";
+        return returnString;
     }
 
     /**
@@ -58,7 +60,8 @@ public class ListManager {
      *
      * @throws EmptyListException If the list is empty
      */
-    public void displayList() throws EmptyListException {
+    public String displayList() throws EmptyListException {
+        String returnString = "";
         if (taskList.isEmpty()) {
             throw new EmptyListException("There are no tasks to display, please input some tasks");
         }
@@ -66,9 +69,11 @@ public class ListManager {
         int count = 1;
         while (iterator.hasNext()) {
             Task task = iterator.next();
-            System.out.println(count + "." + task.getTaskWithStatus());
+            String taskString = count + "." + task.getTaskWithStatus() + "\n";
+            returnString += taskString;
             count++;
         }
+        return returnString;
     }
 
     /**
@@ -78,7 +83,8 @@ public class ListManager {
      * @param index The task number in the List.
      * @throws NoSuchTaskException If index > taskList.size().
      */
-    public void updateTask(boolean isComplete, int index) throws NoSuchTaskException {
+    public String updateTask(boolean isComplete, int index) throws NoSuchTaskException {
+        String returnString;
         if (index > taskList.size() - 1) {
             throw new NoSuchTaskException("There is no task corresponding to the number" + (index + 1));
         }
@@ -91,8 +97,9 @@ public class ListManager {
             uncompletedTasks++;
             completedTasks--;
         }
-        System.out.println("You have " + (isComplete ? "marked" : "unmarked") + " this task.\n"
-                            + task.getTaskWithStatus());
+        returnString = "You have " + (isComplete ? "marked" : "unmarked") + " this task.\n"
+                            + task.getTaskWithStatus();
+        return returnString;
     }
 
     /**
@@ -101,12 +108,14 @@ public class ListManager {
      * @param index The task number in the list.
      * @throws NoSuchTaskException If index > taskList.size().
      */
-    public void deleteTasks(int index) throws NoSuchTaskException {
+    public String deleteTasks(int index) throws NoSuchTaskException {
+        String returnString;
         if (index > taskList.size() - 1) {
             throw new NoSuchTaskException("There is no task corresponding to the number" + (index + 1));
         }
         Task deletedTask = taskList.remove(index);
-        System.out.println("You have deleted " + deletedTask.getTaskWithStatus());
+        returnString = "You have deleted " + deletedTask.getTaskWithStatus();
+        return returnString;
     }
 
     /**
@@ -114,8 +123,8 @@ public class ListManager {
      *
      * @param userInput The find command issued by the user.
      */
-    public void findTasks(String userInput) throws EmptyListException {
-        taskFinder.setFilteredList(taskList, userInput);
+    public String findTasks(String userInput) throws EmptyListException {
+        return taskFinder.setFilteredList(taskList, userInput);
     }
 
     /**

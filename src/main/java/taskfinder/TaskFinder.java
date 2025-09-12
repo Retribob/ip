@@ -20,7 +20,7 @@ public class TaskFinder {
      * @param userInput Find command containing search keyword.
      * @throws EmptyListException If taskList is empty.
      */
-    public void setFilteredList(List<Task> taskList, String userInput) throws EmptyListException {
+    public String setFilteredList(List<Task> taskList, String userInput) throws EmptyListException {
         filteredList = new ArrayList<>();
         String keyword = userInput.split(" ")[1];
         if (taskList.isEmpty()) {
@@ -31,16 +31,18 @@ public class TaskFinder {
                 filteredList.add(task);
             }
         }
-        displayFilteredList();
+        return displayFilteredList();
     }
 
-    private void displayFilteredList() {
+    private String displayFilteredList() {
+        String returnString = "";
         Iterator<Task> iterator = filteredList.iterator();
         int count = 1;
         while(iterator.hasNext()) {
             Task task = iterator.next();
-            System.out.println(count + "." + task.getTaskWithStatus());
+            returnString += count + "." + task.getTaskWithStatus() + "\n";
             count++;
         }
+        return returnString;
     }
 }
