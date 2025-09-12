@@ -34,7 +34,9 @@ public class MainWindow extends AnchorPane {
     private Stage parentStage;
 
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaKid.png"));
-    private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/DaBobby.png"));
+    private Image bobbyImage = new Image(this.getClass().getResourceAsStream("/images/DaBobby.png"));
+
+
 
     @FXML
     public void initialize() {
@@ -57,7 +59,7 @@ public class MainWindow extends AnchorPane {
         String response = bobby.run();
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(greeting, userImage),
-                DialogBox.getDukeDialog(response, dukeImage)
+                DialogBox.getDukeDialog(response, bobbyImage)
         );
     }
 
@@ -71,7 +73,7 @@ public class MainWindow extends AnchorPane {
         String input = userInput.getText();
         String response = bobby.run(input);
         DialogBox userDialog = DialogBox.getUserDialog(input, userImage);
-        DialogBox bobbyDialog = DialogBox.getDukeDialog(response, dukeImage);
+        DialogBox bobbyDialog = DialogBox.getDukeDialog(response, bobbyImage);
         if (Objects.equals(response, "Goodbye...")) {
             dialogContainer.getChildren().addAll(userDialog, bobbyDialog);
             userInput.clear();
