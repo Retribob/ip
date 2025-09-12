@@ -40,12 +40,12 @@ public class Bobby {
     }
 
 
-    public String run() {
-        return ui.onStart();
-    }
-
-    public String run(String input) {
+    public String run(String ... n) {
         try {
+            if (n.length == 0) {
+                return ui.onStart();
+            }
+            String input = n[0];
             String response = parser.parseInput(listManager, input);
 
             if (Objects.equals(response, "bye")) {
