@@ -6,6 +6,8 @@ import uimanager.UI;
 
 import parser.Parser;
 
+import java.util.Objects;
+
 
 /**
  * A Chatbot that stores tasks. <code>Bobby</code> consists of a
@@ -32,23 +34,26 @@ public class Bobby {
      * Sets boolean isRunning to false.
      * Closes UI and ListManager instances.
      */
-    public void endChat() {
+    public String endChat() {
         listManager.closeList();
-        ui.onEnd();
+        return ui.onEnd();
     }
 
 
-    public String run(String input) {
-        /*try {
-            boolean isAction = parser.parseInput(listManager, input);
-            ui.printLine();
+    public String run() {
+        return ui.onStart();
+    }
 
-            if (!isAction) {
-                endChat();
+    public String run(String input) {
+        try {
+            String response = parser.parseInput(listManager, input);
+
+            if (Objects.equals(response, "bye")) {
+                return endChat();
             }
+            return response;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }*/
-        return "Hello";
+            return e.getMessage();
+        }
     }
 }

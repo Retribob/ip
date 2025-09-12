@@ -34,7 +34,19 @@ public class MainWindow extends AnchorPane {
     /** Injects the Duke instance */
     public void setBobby(Bobby b) {
         bobby = b;
+
     }
+
+    @FXML
+    public void startText() {
+        String greeting = "Hello Bobby";
+        String response = bobby.run();
+        dialogContainer.getChildren().addAll(
+                DialogBox.getUserDialog(greeting, userImage),
+                DialogBox.getDukeDialog(response, dukeImage)
+        );
+    }
+
 
     /**
      * Creates two dialog boxes, one echoing user input and the other containing Duke's reply and then appends them to
