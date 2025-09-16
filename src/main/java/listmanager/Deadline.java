@@ -2,8 +2,11 @@ package listmanager;
 
 import customexceptions.IncompleteTaskException;
 
+import parser.Parser;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 /**
  * Subtype of <code>Task</code>, aside from a task name
@@ -12,10 +15,11 @@ import java.time.format.DateTimeFormatter;
 public class Deadline extends Task {
     private String deadline;
     private LocalDate date;
+    private Parser parser = new Parser();
 
     public Deadline(String taskDescriptor) throws IncompleteTaskException {
         super(taskDescriptor);
-        super.taskName = descriptorProcessor(taskDescriptor);
+        descriptorProcessor(taskDescriptor);
     }
 
     /**
@@ -52,25 +56,21 @@ public class Deadline extends Task {
      * @return Task name in string format.
      * @throws IncompleteTaskException If taskDescriptor is in known format but incomplete.
      */
-    public String descriptorProcessor(String taskDescriptor) throws IncompleteTaskException {
-        String[] words = taskDescriptor.split(" ", 2);
-        if (words.length != 2) {
+    public void descriptorProcessor(String taskDescriptor) throws IncompleteTaskException {
+        List<String> words = parser.stringSplitter(taskDescriptor, " ", " /by ");
+        if (words.size() < 2) {
             throw new IncompleteTaskException("please include the task name, thank you.");
-        } else {
-            //Split at the "/by" key words to get the deadline and the task
-            words = taskDescriptor.split(" /by ");
-
-            //words length should at most be 2.
-            assert (words.length <= 2): "word segments exceed expected amount";
-
-            //split again the separate the deadline keyword and the task name
-            if (words.length > 1) {
-                this.deadline = words[1];
-                date = LocalDate.parse(this.deadline);
-                return words[0].split(" ", 2)[1];
-            } else {
-                throw new IncompleteTaskException("Please add a deadline.\n Example: deadline go home /by 2pm");
-            }
         }
+
+        if (words.size() < 3) {
+            throw new IncompleteTaskException("Please add a deadline.\n Example: deadline go home /by 2pm");
+        }
+
+        //words length should at most be 3.
+        assert (words.size() <= 3): "word segments exceed expected amount";
+
+        this.deadline = words.get(2);
+        date = LocalDate.parse(this.deadline);
+        super.taskName = words.get(1);
     }
 }

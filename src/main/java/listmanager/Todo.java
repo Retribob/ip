@@ -1,15 +1,20 @@
 package listmanager;
 
 import customexceptions.IncompleteTaskException;
+import parser.Parser;
+
+import java.util.List;
 
 /**
  * Subtype of <code>Task</code>, it just has a task name.
  */
 public class Todo extends Task {
 
+    private Parser parser = new Parser();
+
     public Todo(String taskDescriptor) throws IncompleteTaskException {
         super(taskDescriptor);
-        super.taskName = descriptorProcessor(taskDescriptor);
+        descriptorProcessor(taskDescriptor);
     }
 
     /**
@@ -41,17 +46,16 @@ public class Todo extends Task {
      * @return Task name in string format.
      * @throws IncompleteTaskException If taskDescriptor is in known format but incomplete.
      */
-    public String descriptorProcessor(String taskDescriptor) throws IncompleteTaskException {
-        String[] words = taskDescriptor.split(" ", 2);
+    public void descriptorProcessor(String taskDescriptor) throws IncompleteTaskException {
+        List<String> words = parser.stringSplitter(taskDescriptor, " ");
 
         //words length should at most be 2.
-        assert (words.length <= 2): "word segments exceed expected amount";
+        assert (words.size() <= 2): "word segments exceed expected amount";
 
-        if (words.length != 2) {
+        if (words.size() != 2) {
             throw new IncompleteTaskException("please include the task name, thank you.");
-        } else {
-            return words[1];
         }
+        super.taskName = words.get(1);
     }
 
 }

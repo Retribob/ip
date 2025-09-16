@@ -5,20 +5,21 @@ import customexceptions.IncompleteTaskException;
 import customexceptions.NoSuchTaskException;
 
 import customexceptions.UnknownInputException;
+import gui.Main;
+import javafx.application.Application;
 import listmanager.ListManager;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 
 /**
- * Uses <code>Scanner</code> object to read userInput
- * and processes it to perform actions.
+ * Parser is responsible for decoding Strings for user input as well as file input.
+ *
  */
 public class Parser {
 
-    /**
-     * Initializes scanner.
-     */
-    public Parser() {
-    }
 
     /**
      * Scans nextline to obtain userInput.
@@ -37,27 +38,60 @@ public class Parser {
      */
     public String parseInput(ListManager listManager, String input)
             throws NoSuchTaskException, IncompleteTaskException, EmptyListException{
-        String userText;
-        userText = input;
-        String[] words = userText.split(" ");
-        if (userText.equals("bye")) {
-            return userText;
-        } else if (userText.equals("list")) {
+        List<String> wordSegments = stringSplitter(input, " ");
+        String keyword = wordSegments.get(0);
+
+        if (keyword.equals("bye")) {
+            return keyword;
+        } else if (keyword.equals("list")) {
             return listManager.displayList();
-        } else if (words[0].equals("unmark")) {
-            if (words.length > 1) {
-                return listManager.updateTask(false, Integer.parseInt(words[1]) - 1);
-            }
-        } else if (words[0].equals("mark")) {
-            if (words.length > 1) {
-                return listManager.updateTask(true, Integer.parseInt(words[1]) - 1);
-            }
-        } else if (words[0].equals("delete")) {
-            return listManager.deleteTasks(Integer.parseInt(words[1]) - 1);
-        } else if (words[0].equals("find")) {
-            return listManager.findTasks(userText);
+        } else  if (keyword.equals("find")) {
+            return listManager.findTasks(input);
+        } else if (keyword.equals("unmark")) {
+            int index = Integer.parseInt(wordSegments.get(1)) - 1;
+            return listManager.updateTask(false, index);
+        } else if (keyword.equals("mark")) {
+            int index = Integer.parseInt(wordSegments.get(1)) - 1;
+            return listManager.updateTask(true, index);
+        } else if (keyword.equals("delete")){
+            int index = Integer.parseInt(wordSegments.get(1)) - 1;
+            return listManager.deleteTasks(index);
         }
 
-        return listManager.add(userText);
+        return listManager.add(input);
+
+
     }
+
+
+    /**
+     * This method breaks down the words into segments based on the specified splitPoints
+     *
+     * @param input is the String the caller wishes to break apart
+     * @param splitPoints each split point will break the remaining string in half based on the first occurrence
+     *                    of each splitPoint
+     * @return a List of Strings that correspond to each segment of the input.
+     */
+    public List<String> stringSplitter(String input, String... splitPoints) {
+        List<String> stringSegments = new ArrayList<String>();
+        String temp = input;
+        boolean completeSplit = true;
+
+        for (String splitPoint : splitPoints) {
+            String[] words = temp.split(splitPoint, 2);
+            stringSegments.add(words[0]);
+            if (words.length <= 1) {
+                completeSplit = false;
+                break;
+            }
+            temp = words[1];
+        }
+
+        if (completeSplit) {
+            stringSegments.add(temp);
+        }
+
+        return stringSegments;
+    }
+
 }
