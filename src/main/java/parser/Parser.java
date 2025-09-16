@@ -23,10 +23,10 @@ public class Parser {
     /**
      * Scans nextline to obtain userInput.
      * Breaks down user input into chunks to perform certain actions:
-     * Can end chatbot conversation. "bye"
-     * Can display list. "list"
-     * Can mark task as complete/incomplete. "mark/unmark <>list number</>"
-     * Can delete task. "delete <>list number</>"
+     * Can end chatbot conversation.
+     * Can display list.
+     * Can mark task as complete/incomplete.
+     * Can delete task.
      * Can store task in <code>ListManager</code> object.
      *
      * @param listManager ListManager instance that stores tasks
@@ -45,13 +45,10 @@ public class Parser {
         } else if (userText.equals("list")) {
             return listManager.displayList();
         } else if (words[0].equals("unmark")) {
-            if (words.length > 1) {
-                return listManager.updateTask(false, Integer.parseInt(words[1]) - 1);
-            }
+            return listManager.updateTask(false, Integer.parseInt(words[1]) - 1);
         } else if (words[0].equals("mark")) {
-            if (words.length > 1) {
-                return listManager.updateTask(true, Integer.parseInt(words[1]) - 1);
-            }
+            words = userText.split(" ");
+            return listManager.updateTask(true, Integer.parseInt(words[1]) - 1);
         } else if (words[0].equals("delete")) {
             return listManager.deleteTasks(Integer.parseInt(words[1]) - 1);
         } else if (words[0].equals("find")) {

@@ -3,7 +3,7 @@
     -fx-border-color: #ffffff;
     -fx-border-width: 3;
     -fx-padding: 15;
-    -fx-background-radius: 0;
+    -fx-background-radius: 0; /* Sharp corners for retro look */
     -fx-border-radius: 0;
 }
 

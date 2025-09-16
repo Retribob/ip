@@ -60,9 +60,6 @@ public class Deadline extends Task {
             //Split at the "/by" key words to get the deadline and the task
             words = taskDescriptor.split(" /by ");
 
-            //words length should at most be 2.
-            assert (words.length <= 2): "word segments exceed expected amount";
-
             //split again the separate the deadline keyword and the task name
             if (words.length > 1) {
                 this.deadline = words[1];
