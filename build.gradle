@@ -48,6 +48,7 @@ test {
 }
 
 application {
+    //mainClass.set("parser.Parser")
     mainClass.set("gui.Launcher")
 }
 
