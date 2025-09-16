@@ -64,6 +64,9 @@ public class Event extends Task {
             //Split at the "/from " key word to get the event period and the task name
             words = taskDescriptor.split(" /from ");
 
+            //words length should at most be 2.
+            assert (words.length <= 2): "word segments exceed expected amount";
+
             //Split again the separate the event keyword as well as the event start and end date
             if (words.length > 1) {
                 this.start = words[1].split(" /to ")[0];

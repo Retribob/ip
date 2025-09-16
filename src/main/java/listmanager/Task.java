@@ -65,7 +65,16 @@ public class Task {
         }
     }
 
-    public void changeStatus(boolean isComplete) {
-        this.isComplete = isComplete;
+    /**
+     * Changes the completion status of the task.
+     * @param isComplete is set true if the task is set to be completed, false otherwise.
+     * @return true if there is a change in status. False otherwise.
+     */
+    public boolean changeStatus(boolean isComplete) {
+        if (this.isComplete != isComplete) {
+            this.isComplete = isComplete;
+            return true;
+        }
+        return false;
     }
 }
