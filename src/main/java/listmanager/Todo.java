@@ -43,6 +43,10 @@ public class Todo extends Task {
      */
     public String descriptorProcessor(String taskDescriptor) throws IncompleteTaskException {
         String[] words = taskDescriptor.split(" ", 2);
+
+        //words length should at most be 2.
+        assert (words.length <= 2): "word segments exceed expected amount";
+
         if (words.length != 2) {
             throw new IncompleteTaskException("please include the task name, thank you.");
         } else {
