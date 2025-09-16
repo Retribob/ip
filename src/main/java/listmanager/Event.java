@@ -1,9 +1,11 @@
 package listmanager;
 
 import customexceptions.IncompleteTaskException;
+import parser.Parser;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 /**
  * Subtype of <code>Task</code>, aside from a task name
@@ -14,10 +16,11 @@ public class Event extends Task {
     private String end;
     private LocalDate startDate;
     private LocalDate endDate;
+    private Parser parser = new Parser();
 
     public Event(String taskDescriptor) throws IncompleteTaskException {
         super(taskDescriptor);
-        super.taskName = descriptorProcessor(taskDescriptor);
+        descriptorProcessor(taskDescriptor);
     }
 
     /**
@@ -56,28 +59,25 @@ public class Event extends Task {
      * @return Task name in string format.
      * @throws IncompleteTaskException If taskDescriptor is in known format but incomplete.
      */
-    public String descriptorProcessor(String taskDescriptor) throws IncompleteTaskException {
-        String[] words = taskDescriptor.split(" ", 2);
-        if (words.length != 2) {
+    public void descriptorProcessor(String taskDescriptor) throws IncompleteTaskException {
+        List<String> words = parser.stringSplitter(taskDescriptor, " ", " /from ", " /to ");
+        if (words.size() < 2) {
             throw new IncompleteTaskException("please include the task name, thank you.");
         } else {
-            //Split at the "/from " key word to get the event period and the task name
-            words = taskDescriptor.split(" /from ");
 
-            //words length should at most be 2.
-            assert (words.length <= 2): "word segments exceed expected amount";
+            //words length should at most be 4.
+            assert (words.size() <= 4): "word segments exceed expected amount";
 
-            //Split again the separate the event keyword as well as the event start and end date
-            if (words.length > 1) {
-                this.start = words[1].split(" /to ")[0];
-                this.end = words[1].split(" /to ")[1];
-                this.startDate = LocalDate.parse(this.start);
-                this.endDate = LocalDate.parse(this.end);
-                return words[0].split(" ", 2)[1];
-            } else {
+             if (words.size() < 4) {
                 throw new IncompleteTaskException("please include start and end time using /from and /to for events");
             }
-
+             
+            super.taskName = words.get(1);
+            this.start = words.get(2);
+            this.end = words.get(3);
+            this.startDate = LocalDate.parse(this.start);
+            this.endDate = LocalDate.parse(this.end);
+            
         }
     }
 }

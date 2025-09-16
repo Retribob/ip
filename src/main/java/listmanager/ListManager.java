@@ -3,6 +3,7 @@ package listmanager;
 import com.sun.source.util.TaskListener;
 import taskfinder.TaskFinder;
 import taskstorage.TaskSaver;
+import uimanager.UI;
 
 import customexceptions.EmptyListException;
 import customexceptions.IncompleteTaskException;
@@ -19,12 +20,13 @@ import java.util.Objects;
  */
 public class ListManager {
     private List<Task> taskList;
-    private static int completedTasks = 0;
-    private static int taskCount = 0;
-    private static int uncompletedTasks = 0;
+    private int completedTasks = 0;
+    private int taskCount = 0;
+    private int uncompletedTasks = 0;
 
     private TaskSaver taskSaver;
     private TaskFinder taskFinder;
+    private UI ui;
 
     /**
      * Initializes <code>TaskStorage</code> and <code>TaskFinder</code> instance.
@@ -34,26 +36,22 @@ public class ListManager {
         taskSaver = new TaskSaver();
         importTaskList(taskSaver.loadTasks());
         taskFinder = new TaskFinder();
+        ui = new UI();
     }
 
     /**
-     * Adds a task to the <code>TaskList</code> based on the input string.
+     * Creates task based on taskDescription.
+     * updates the task counter.
+     * returns a string message acknowledging the task has been added.
      *
-     * @param task task description in string format.
+     * @param taskDescription task description in string format.
      * @throws NoSuchTaskException If task description doesn't match any known format.
      * @throws IncompleteTaskException If task description matches known format but is incomplete.
      */
-    public String add(String task) throws NoSuchTaskException, IncompleteTaskException {
-        String returnString;
-        Task taskType = taskClassifier(task);
-        taskList.add(taskType);
-        taskCount += 1;
-        uncompletedTasks++;
-        returnString = "Task Added: " + taskType.getName()
-                + "\nDo remember to take care of your health."
-                + "\nYou have " + taskCount + " tasks in list, " + completedTasks + " completed "
-                + uncompletedTasks + " uncompleted.";
-        return returnString;
+    public String add(String taskDescription) throws NoSuchTaskException, IncompleteTaskException {
+        Task newTask = addTaskToList(taskDescription);
+        updateTaskCounter();
+        return ui.onNewTask(newTask, taskCount, completedTasks, uncompletedTasks);
     }
 
     /**
@@ -86,31 +84,13 @@ public class ListManager {
      * @throws NoSuchTaskException If index > taskList.size().
      */
     public String updateTask(boolean isComplete, int index) throws NoSuchTaskException {
-        String returnString;
-        if (index > taskList.size() - 1) {
+        if (index > taskList.size() - 1 || index < 0) {
             throw new NoSuchTaskException("There is no task corresponding to the number" + (index + 1));
         }
         Task task = taskList.get(index);
-        boolean isUpdateStatus = task.changeStatus(isComplete);
-        if (isUpdateStatus) {
-            if (Objects.equals(task.getStatus(), "X")) {
-                completedTasks++;
-                uncompletedTasks--;
-            } else {
-                uncompletedTasks++;
-                completedTasks--;
-            }
-        }
-
-        //completed and uncompleted tasks should never be negative. Or exceed total task count
-        assert completedTasks > 0 : "Number of completed tasks should never be negative";
-        assert uncompletedTasks > 0 : "Number of completed tasks should never be negative";
-        assert (uncompletedTasks + completedTasks) == taskCount : "Uncompleted and completed tasks equal task count";
-
-
-        returnString = "You have " + (isComplete ? "marked" : "unmarked") + " this task.\n"
-                            + task.getTaskWithStatus();
-        return returnString;
+        task.changeStatus(isComplete);
+        updateTaskCounter();
+        return ui.onUpdateTask(isComplete, task);
     }
 
     /**
@@ -125,18 +105,8 @@ public class ListManager {
             throw new NoSuchTaskException("There is no task corresponding to the number" + (index + 1));
         }
         Task deletedTask = taskList.remove(index);
-        taskCount -= 1;
-        if (Objects.equals(deletedTask.getStatus(), "X")) {
-            completedTasks--;
-        } else {
-            uncompletedTasks--;
-        }
-
-        //completed and uncompleted tasks should not exceed task count
-        assert (uncompletedTasks + completedTasks) == taskCount : "Uncompleted and completed tasks equal task count";
-
-        returnString = "You have deleted " + deletedTask.getTaskWithStatus();
-        return returnString;
+        updateTaskCounter();
+        return ui.onDeleteTask(deletedTask);
     }
 
     /**
@@ -161,7 +131,6 @@ public class ListManager {
         //split the task string into keywords
         String[] taskKeyWords = task.split(" ", 2);
 
-
         //by splitting the string up we can now compare the first word to identify the task type
         if (taskKeyWords[0].equals("todo")) {
             return new Todo(task);
@@ -182,22 +151,43 @@ public class ListManager {
     }
 
 
-    private void importTaskList(List<Task> taskList) {
-        this.taskList = taskList;
+    private Task addTaskToList(String taskDescription)
+            throws NoSuchTaskException, IncompleteTaskException {
+        Task taskType = taskClassifier(taskDescription);
+        taskList.add(taskType);
+        return taskType;
+    }
+
+    private void updateTaskCounter() {
         Iterator<Task> iterator = taskList.iterator();
+
+        int totalTasks = 0;
+        int totalCompletedTasks = 0;
+        int totalUncompletedTasks = 0;
 
         //update task count statistics
         while (iterator.hasNext()) {
-            taskCount += 1;
             Task task = iterator.next();
+            totalTasks += 1;
             if (Objects.equals(task.getStatus(), "X")) {
-                completedTasks++;
+                totalCompletedTasks += 1;
             } else {
-                uncompletedTasks++;
+                totalUncompletedTasks += 1;
             }
-
-            //completed and uncompleted tasks should not exceed task count
-            assert (uncompletedTasks + completedTasks) == taskCount : "Uncompleted and completed tasks equal task count";
         }
+
+        taskCount = totalTasks;
+        completedTasks = totalCompletedTasks;
+        uncompletedTasks = totalUncompletedTasks;
+
+        //completed and uncompleted tasks should never be negative. Or exceed total task count
+        assert completedTasks > 0 : "Number of completed tasks should never be negative";
+        assert uncompletedTasks > 0 : "Number of completed tasks should never be negative";
+        assert (uncompletedTasks + completedTasks) == taskCount : "Uncompleted and completed tasks equal task count";
+    }
+
+    private void importTaskList(List<Task> taskList) {
+        this.taskList = taskList;
+        updateTaskCounter();
     }
 }
