@@ -1,6 +1,11 @@
 package listmanager;
 
 import customexceptions.IncompleteTaskException;
+import tags.Tag;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Task object stores information of the task such as taskDescriptor and taskName.
@@ -10,9 +15,11 @@ public class Task {
     protected String taskDescriptor;
     protected boolean isComplete;
     protected String taskName;
+    protected List<Tag> taskTags;
 
     public Task(String taskDescriptor) {
         this.taskDescriptor = taskDescriptor;
+        taskTags = new ArrayList<>();
     }
 
 
@@ -63,6 +70,19 @@ public class Task {
         } else {
             return " ";
         }
+    }
+
+    public void addTag(String tagName) {
+        this.taskTags.add(new Tag(tagName));
+    }
+
+    public String getTags() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < taskTags.size(); i++) {
+            sb.append("#").append(taskTags.get(i).getName()).append(" ");
+        }
+
+        return sb.toString();
     }
 
     /**

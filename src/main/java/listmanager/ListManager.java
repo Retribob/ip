@@ -109,6 +109,16 @@ public class ListManager {
         return ui.onDeleteTask(deletedTask);
     }
 
+    public String addTagToTask(String tagName, int index) throws NoSuchTaskException{
+        if (index > taskList.size() - 1 || index < 0) {
+            throw new NoSuchTaskException("There is no task corresponding to the number" + (index + 1));
+        }
+        Task task = taskList.get(index);
+        task.addTag(tagName);
+        return ui.onTagTask(tagName, task);
+    }
+
+
     /**
      * Calls TaskFinder class to filter list by keyword.
      *

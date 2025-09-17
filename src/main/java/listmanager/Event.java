@@ -33,7 +33,9 @@ public class Event extends Task {
     public String getTaskWithStatus() {
         return "[E]"
                 + "[" + getStatus() + "] "
-                + getName() + " " + getEventPeriod();
+                + getName() + " "
+                + getEventPeriod()  + " "
+                + super.getTags();
     }
 
     /**

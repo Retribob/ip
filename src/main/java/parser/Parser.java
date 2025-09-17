@@ -53,9 +53,15 @@ public class Parser {
         } else if (keyword.equals("mark")) {
             int index = Integer.parseInt(wordSegments.get(1)) - 1;
             return listManager.updateTask(true, index);
-        } else if (keyword.equals("delete")){
+        } else if (keyword.equals("delete")) {
             int index = Integer.parseInt(wordSegments.get(1)) - 1;
             return listManager.deleteTasks(index);
+        } else if (keyword.equals("tag")) {
+            List<String> temp = stringSplitter(wordSegments.get(1), " ");
+            int index = Integer.parseInt(temp.get(0)) - 1;
+            String tagName = temp.get(1);
+            return listManager.addTagToTask(tagName, index);
+
         }
 
         return listManager.add(input);

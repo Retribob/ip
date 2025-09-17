@@ -25,7 +25,8 @@ public class Todo extends Task {
     public String getTaskWithStatus() {
         return "[T]"
                 + "[" + getStatus() + "] "
-                + getName();
+                + getName() + " "
+                + super.getTags();
     }
 
     /**

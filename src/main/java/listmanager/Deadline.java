@@ -32,7 +32,8 @@ public class Deadline extends Task {
         return "[D]"
                 + "[" + getStatus() + "] "
                 + getName() + " "
-                + getDeadline();
+                + getDeadline() + " "
+                + super.getTags();
     }
 
     /**

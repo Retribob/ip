@@ -32,4 +32,9 @@ public class UI {
         return "You have deleted " + task.getTaskWithStatus();
     }
 
+    public String onTagTask(String tagName, Task task) {
+        return "Added " + tagName + " tag to " + task.getName()
+                + ".\nHave a bobulous day!";
+    }
+
 }
