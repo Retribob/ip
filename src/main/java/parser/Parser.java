@@ -1,10 +1,7 @@
 package parser;
 
-import customexceptions.EmptyListException;
-import customexceptions.IncompleteTaskException;
-import customexceptions.NoSuchTaskException;
+import customexceptions.*;
 
-import customexceptions.UnknownInputException;
 import gui.Main;
 import javafx.application.Application;
 import listmanager.ListManager;
@@ -37,7 +34,7 @@ public class Parser {
      * @throws EmptyListException If user wants to display taskList but there are no tasks.
      */
     public String parseInput(ListManager listManager, String input)
-            throws NoSuchTaskException, IncompleteTaskException, EmptyListException{
+            throws NoSuchTaskException, IncompleteTaskException, EmptyListException, NoSuchTagException {
         List<String> wordSegments = stringSplitter(input, " ");
         String keyword = wordSegments.get(0);
 
@@ -53,9 +50,13 @@ public class Parser {
         } else if (keyword.equals("mark")) {
             int index = Integer.parseInt(wordSegments.get(1)) - 1;
             return listManager.updateTask(true, index);
-        } else if (keyword.equals("delete")){
+        } else if (keyword.equals("delete")) {
             int index = Integer.parseInt(wordSegments.get(1)) - 1;
             return listManager.deleteTasks(index);
+        } else if (keyword.equals("tag")) {
+            return listManager.addTagToTask(input);
+        } else if (keyword.equals("untag")) {
+            return listManager.removeTagFromTask(input);
         }
 
         return listManager.add(input);

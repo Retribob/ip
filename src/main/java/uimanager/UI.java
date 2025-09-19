@@ -32,4 +32,16 @@ public class UI {
         return "You have deleted " + task.getTaskWithStatus();
     }
 
+    public String onTagTask(String tagName, Task task) {
+        return "Added " + tagName + " tag to " + task.getName()
+                + ".\nHave a bobulous day!";
+    }
+
+    public String onUntagTask(String tagName, Task task) {
+        return "Removed " + tagName + " from " + task.getName() + ".";
+    }
+
+    public String failedToExecuteTask() {
+        return "I am very sorry man. I have failed to execute the task. D:";
+    }
 }

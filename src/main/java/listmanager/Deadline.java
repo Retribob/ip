@@ -1,6 +1,7 @@
 package listmanager;
 
 import customexceptions.IncompleteTaskException;
+import customexceptions.IncompleteTaskException;
 
 import parser.Parser;
 
@@ -32,7 +33,8 @@ public class Deadline extends Task {
         return "[D]"
                 + "[" + getStatus() + "] "
                 + getName() + " "
-                + getDeadline();
+                + getDeadline() + " "
+                + super.getTags();
     }
 
     /**
@@ -42,7 +44,15 @@ public class Deadline extends Task {
      */
     @Override
     public String toStringFormat() {
-        return "Deadline," + super.taskDescriptor + "," + super.isComplete;
+        StringBuilder sb = new StringBuilder();
+        sb.append("Deadline,").append(super.taskDescriptor + ",").append(super.isComplete);
+
+        //Append tags
+        for (int i = 0; i < super.taskTags.size(); i++) {
+            sb.append("," + super.taskTags.get(i).getName());
+        }
+        return sb.toString();
+
     }
 
     public String getDeadline() {

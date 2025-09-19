@@ -1,6 +1,13 @@
 package listmanager;
 
 import customexceptions.IncompleteTaskException;
+import tags.Tag;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
+
 
 /**
  * Task object stores information of the task such as taskDescriptor and taskName.
@@ -10,9 +17,11 @@ public class Task {
     protected String taskDescriptor;
     protected boolean isComplete;
     protected String taskName;
+    protected List<Tag> taskTags;
 
     public Task(String taskDescriptor) {
         this.taskDescriptor = taskDescriptor;
+        taskTags = new ArrayList<>();
     }
 
 
@@ -45,6 +54,12 @@ public class Task {
             returnTask = new Event(taskDescriptor);
             returnTask.changeStatus(isComplete);
         }
+
+        //Add tags to returnTask
+        for (int i = 3; i < words.length; i++) {
+            returnTask.addTag(words[i]);
+        }
+
         return returnTask;
     }
 
@@ -63,6 +78,43 @@ public class Task {
         } else {
             return " ";
         }
+    }
+
+    /**
+     * Creates a new <class>Tag</class> object and adds it to list of tags within the Task.
+     * @param tagName is the name of the tag being added.
+     */
+    public void addTag(String tagName) {
+        this.taskTags.add(new Tag(tagName));
+    }
+
+    /**
+     * Removes tag with matching tag name from the list of tags associated with the <class>Task</class> object.
+     * If there are multiple tags with the same name, all will be removed.
+     *
+     * @param tagName is the name of the tag being removed.
+     * @return isRemoved boolean if a tag was successfully removed.
+     */
+    public boolean removeTag(String tagName) {
+        Iterator<Tag> iterator = taskTags.iterator();
+        boolean isRemoved = false;
+        while(iterator.hasNext()) {
+            Tag temp = iterator.next();
+            if (Objects.equals(temp.getName(), tagName)) {
+                iterator.remove();
+                isRemoved = true;
+            }
+        }
+        return isRemoved;
+    }
+
+    public String getTags() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < taskTags.size(); i++) {
+            sb.append("#").append(taskTags.get(i).getName()).append(" ");
+        }
+
+        return sb.toString();
     }
 
     /**
