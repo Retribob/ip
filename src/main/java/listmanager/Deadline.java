@@ -1,6 +1,7 @@
 package listmanager;
 
 import customexceptions.IncompleteTaskException;
+import customexceptions.IncompleteTaskException;
 
 import parser.Parser;
 

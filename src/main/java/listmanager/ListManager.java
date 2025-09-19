@@ -1,9 +1,11 @@
 package listmanager;
 
 import com.sun.source.util.TaskListener;
+import customexceptions.NoSuchTagException;
 import taskfinder.TaskFinder;
 import taskstorage.TaskSaver;
 import uimanager.UI;
+import parser.Parser;
 
 import customexceptions.EmptyListException;
 import customexceptions.IncompleteTaskException;
@@ -27,6 +29,7 @@ public class ListManager {
     private TaskSaver taskSaver;
     private TaskFinder taskFinder;
     private UI ui;
+    private Parser parser;
 
     /**
      * Initializes <code>TaskStorage</code> and <code>TaskFinder</code> instance.
@@ -37,6 +40,7 @@ public class ListManager {
         importTaskList(taskSaver.loadTasks());
         taskFinder = new TaskFinder();
         ui = new UI();
+        parser = new Parser();
     }
 
     /**
@@ -109,7 +113,17 @@ public class ListManager {
         return ui.onDeleteTask(deletedTask);
     }
 
-    public String addTagToTask(String tagName, int index) throws NoSuchTaskException{
+    public String addTagToTask(String input) throws NoSuchTaskException, NoSuchTagException {
+
+        List<String> wordSegments = parser.stringSplitter(input, " ", " ");
+
+        if (wordSegments.size() < 3) {
+            throw new NoSuchTagException("Please follow this format for tagging: 'tag <task number> <tag name>'");
+        }
+
+        int index = Integer.parseInt(wordSegments.get(1)) - 1;
+        String tagName = wordSegments.get(2);
+
         if (index > taskList.size() - 1 || index < 0) {
             throw new NoSuchTaskException("There is no task corresponding to the number" + (index + 1));
         }
@@ -118,6 +132,28 @@ public class ListManager {
         return ui.onTagTask(tagName, task);
     }
 
+    public String removeTagFromTask(String input) throws NoSuchTagException, NoSuchTaskException {
+        List<String> wordSegments = parser.stringSplitter(input, " ", " ");
+
+        if (wordSegments.size() < 3) {
+            throw new NoSuchTagException("Please follow this format for untagging: 'untag <task number> <tag name>'");
+        }
+
+        int index = Integer.parseInt(wordSegments.get(1)) - 1;
+        String tagName = wordSegments.get(2);
+
+        if (index > taskList.size() - 1 || index < 0) {
+            throw new NoSuchTaskException("There is no task corresponding to the number" + (index + 1));
+        }
+
+        Task task = taskList.get(index);
+        boolean isRemoved = task.removeTag(tagName);
+
+        if (!isRemoved) {
+            throw new NoSuchTagException("I am unable to find a tag with the specified name to remove.");
+        }
+        return ui.onUntagTask(tagName, task);
+    }
 
     /**
      * Calls TaskFinder class to filter list by keyword.

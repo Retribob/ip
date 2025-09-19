@@ -37,4 +37,11 @@ public class UI {
                 + ".\nHave a bobulous day!";
     }
 
+    public String onUntagTask(String tagName, Task task) {
+        return "Removed " + tagName + " from " + task.getName() + ".";
+    }
+
+    public String failedToExecuteTask() {
+        return "I am very sorry man. I have failed to execute the task. D:";
+    }
 }

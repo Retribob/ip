@@ -4,7 +4,9 @@ import customexceptions.IncompleteTaskException;
 import tags.Tag;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -72,8 +74,32 @@ public class Task {
         }
     }
 
+    /**
+     * Creates a new <class>Tag</class> object and adds it to list of tags within the Task.
+     * @param tagName is the name of the tag being added.
+     */
     public void addTag(String tagName) {
         this.taskTags.add(new Tag(tagName));
+    }
+
+    /**
+     * Removes tag with matching tag name from the list of tags associated with the <class>Task</class> object.
+     * If there are multiple tags with the same name, all will be removed.
+     *
+     * @param tagName is the name of the tag being removed.
+     * @return isRemoved boolean if a tag was successfully removed.
+     */
+    public boolean removeTag(String tagName) {
+        Iterator<Tag> iterator = taskTags.iterator();
+        boolean isRemoved = false;
+        while(iterator.hasNext()) {
+            Tag temp = iterator.next();
+            if (Objects.equals(temp.getName(), tagName)) {
+                iterator.remove();
+                isRemoved = true;
+            }
+        }
+        return isRemoved;
     }
 
     public String getTags() {
