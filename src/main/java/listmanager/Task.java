@@ -54,6 +54,12 @@ public class Task {
             returnTask = new Event(taskDescriptor);
             returnTask.changeStatus(isComplete);
         }
+
+        //Add tags to returnTask
+        for (int i = 3; i < words.length; i++) {
+            returnTask.addTag(words[i]);
+        }
+
         return returnTask;
     }
 

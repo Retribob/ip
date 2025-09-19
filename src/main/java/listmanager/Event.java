@@ -45,7 +45,14 @@ public class Event extends Task {
      */
     @Override
     public String toStringFormat() {
-        return "Event," + super.taskDescriptor + "," + super.isComplete;
+        StringBuilder sb = new StringBuilder();
+        sb.append("Event,").append(super.taskDescriptor + ",").append(super.isComplete);
+
+        //Append tags
+        for (int i = 0; i < super.taskTags.size(); i++) {
+            sb.append("," + super.taskTags.get(i).getName());
+        }
+        return sb.toString();
     }
 
 
