@@ -1,9 +1,6 @@
 package uimanager;
 
 import listmanager.Task;
-import texttypes.EndText;
-import texttypes.StartText;
-
 
 
 public class UI {
@@ -13,7 +10,8 @@ public class UI {
      * @return a String that corresponds to the starting message.
      */
     public String onStart() {
-        return new StartText().getText();
+        return "Hello! My name is bobby,\n"
+                + "pleased to meet you.";
     }
 
     /**
@@ -21,7 +19,7 @@ public class UI {
      * @return a String that corresponds to the closing message.
      */
     public String onEnd() {
-        return new EndText().getText();
+        return "Goodbye...";
     }
 
     /**
@@ -83,9 +81,5 @@ public class UI {
      */
     public String onUntagTask(String tagName, Task task) {
         return "Removed " + tagName + " from " + task.getName() + ".";
-    }
-
-    public String failedToExecuteTask() {
-        return "I am very sorry man. I have failed to execute the task. D:";
     }
 }
