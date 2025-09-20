@@ -4,7 +4,9 @@ import customexceptions.IncompleteTaskException;
 import parser.Parser;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 /**
@@ -15,7 +17,9 @@ public class Event extends Task {
     private String start;
     private String end;
     private LocalDate startDate;
+    private LocalTime startTime;
     private LocalDate endDate;
+    private LocalTime endTime;
     private Parser parser = new Parser();
 
     public Event(String taskDescriptor) throws IncompleteTaskException {
@@ -57,8 +61,40 @@ public class Event extends Task {
 
 
     public String getEventPeriod() {
-        return "(from: " + startDate.format(DateTimeFormatter.ofPattern("MMM d yyyy"))
-                + " to: " + endDate.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ")";
+        StringBuilder sb = new StringBuilder();
+        sb.append("(from: ");
+        appendStartDate(sb);
+
+        sb.append(" to: ");
+        appendEndDate(sb);
+        sb.append(")");
+        return sb.toString();
+    }
+
+    private void appendStartDate(StringBuilder stringBuilder) {
+        if (startDate == null) {
+            stringBuilder.append(start);
+        } else if(startTime == null) {
+            stringBuilder.append(startDate.format(DateTimeFormatter.ofPattern("MMM d yyyy")))
+                    .append(" ");
+        } else {
+            stringBuilder.append(startDate.format(DateTimeFormatter.ofPattern("MMM d yyyy")))
+                    .append(" ")
+                    .append(startTime.format(DateTimeFormatter.ofPattern("h a")));
+        }
+    }
+
+    private void appendEndDate(StringBuilder stringBuilder) {
+        if (endDate == null) {
+            stringBuilder.append(end);
+        } else if(endTime == null) {
+            stringBuilder.append(endDate.format(DateTimeFormatter.ofPattern("MMM d yyyy")))
+                    .append(" ");
+        } else {
+            stringBuilder.append(endDate.format(DateTimeFormatter.ofPattern("MMM d yyyy")))
+                    .append(" ")
+                    .append(endTime.format(DateTimeFormatter.ofPattern("h a")));
+        }
     }
 
     /**
@@ -84,9 +120,46 @@ public class Event extends Task {
             super.taskName = words.get(1);
             this.start = words.get(2);
             this.end = words.get(3);
-            this.startDate = LocalDate.parse(this.start);
-            this.endDate = LocalDate.parse(this.end);
+            dateTimeProcessor(start, true);
+            dateTimeProcessor(end, false);
             
+        }
+    }
+
+
+    private void dateTimeProcessor(String input, boolean isStart) {
+        List<String> dateAndTime = parser.stringSplitter(input, " ");
+
+        if (isStart) {
+            if (dateAndTime.size() == 2) {
+                try {
+                    DateTimeFormatter standardFormat = DateTimeFormatter.ofPattern("HHmm");
+                    startTime = LocalTime.parse(dateAndTime.get(1), standardFormat);
+                } catch (DateTimeParseException e) {
+                    startTime = null;
+                }
+            }
+
+            try {
+                startDate = LocalDate.parse(dateAndTime.get(0));
+            } catch (DateTimeParseException e) {
+                startDate = null;
+            }
+        } else {
+            if (dateAndTime.size() == 2) {
+                try {
+                    DateTimeFormatter standardFormat = DateTimeFormatter.ofPattern("HHmm");
+                    endTime = LocalTime.parse(dateAndTime.get(1), standardFormat);
+                } catch (DateTimeParseException e) {
+                    endTime = null;
+                }
+            }
+
+            try {
+                endDate = LocalDate.parse(dateAndTime.get(0));
+            } catch (DateTimeParseException e) {
+                endDate = null;
+            }
         }
     }
 }

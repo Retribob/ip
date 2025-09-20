@@ -1,12 +1,13 @@
 package listmanager;
 
 import customexceptions.IncompleteTaskException;
-import customexceptions.IncompleteTaskException;
 
 import parser.Parser;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 /**
@@ -16,6 +17,7 @@ import java.util.List;
 public class Deadline extends Task {
     private String deadline;
     private LocalDate date;
+    private LocalTime time;
     private Parser parser = new Parser();
 
     public Deadline(String taskDescriptor) throws IncompleteTaskException {
@@ -56,7 +58,25 @@ public class Deadline extends Task {
     }
 
     public String getDeadline() {
-        return "(by: " + date.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ")";
+        StringBuilder sb = new StringBuilder();
+        sb.append("(by: ");
+        if (date == null) {
+            sb.append(this.deadline).append(")");
+            return sb.toString();
+        }
+
+        if (time == null) {
+            sb.append(date.format(DateTimeFormatter.ofPattern("MMM d yyyy")))
+                    .append(")");
+            return sb.toString();
+        }
+
+        sb.append(date.format(DateTimeFormatter.ofPattern("MMM d yyyy")))
+                .append(" ")
+                .append(time.format(DateTimeFormatter.ofPattern("h a")))
+                .append(")");
+
+        return sb.toString();
     }
 
     /**
@@ -79,8 +99,29 @@ public class Deadline extends Task {
         //words length should at most be 3.
         assert (words.size() <= 3): "word segments exceed expected amount";
 
-        this.deadline = words.get(2);
-        date = LocalDate.parse(this.deadline);
         super.taskName = words.get(1);
+        this.deadline = words.get(2);
+        dateTimeProcessor(this.deadline);
+
+    }
+
+
+    private void dateTimeProcessor(String deadline) {
+        List<String> dateAndTime = parser.stringSplitter(deadline, " ");
+
+        if (dateAndTime.size() == 2) {
+            try {
+                DateTimeFormatter standardFormat = DateTimeFormatter.ofPattern("HHmm");
+                time = LocalTime.parse(dateAndTime.get(1), standardFormat);
+            } catch (DateTimeParseException e) {
+                time = null;
+            }
+        }
+
+        try {
+            date = LocalDate.parse(dateAndTime.get(0));
+        } catch (DateTimeParseException e) {
+            date = null;
+        }
     }
 }
