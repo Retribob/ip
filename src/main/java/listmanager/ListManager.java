@@ -1,6 +1,5 @@
 package listmanager;
 
-import com.sun.source.util.TaskListener;
 import customexceptions.NoSuchTagException;
 import taskfinder.TaskFinder;
 import taskstorage.TaskSaver;
@@ -18,7 +17,9 @@ import java.util.Objects;
 /**
  * Stores <code>Task</code> objects in a <code>List</code> taskList.
  * Tracks taskCount, completedTasks and uncompletedTasks.
- * Contains <code>TaskStorage</code> object which saves stored tasks to a file on end.
+ * Contains <code>TaskSaver</code> object which saves stored tasks to a file on end.
+ *
+ * The ListManager class can add/remove tasks, update tasks (add tags, mark/unmark as complete).
  */
 public class ListManager {
     private List<Task> taskList;
@@ -113,6 +114,13 @@ public class ListManager {
         return ui.onDeleteTask(deletedTask);
     }
 
+    /**
+     * Adds a tag to the task.
+     * @param input follows the format "tag <>TASK NUMBER</> <>TAG NAME</>"
+     * @return a message indicating the tag has been added/failed to add as a String.
+     * @throws NoSuchTaskException if no Task corresponds to the <>TASK NUMBER</>
+     * @throws NoSuchTagException if missing Tag Name
+     */
     public String addTagToTask(String input) throws NoSuchTaskException, NoSuchTagException {
 
         List<String> wordSegments = parser.stringSplitter(input, " ", " ");
@@ -132,6 +140,14 @@ public class ListManager {
         return ui.onTagTask(tagName, task);
     }
 
+    /**
+     * Removes tag from the specified task.
+     *
+     * @param input follows the format "untag <>TASK NUMBER</> <>TAG NAME</>.
+     * @return message that indicates the tag was/was not removed.
+     * @throws NoSuchTagException if TAG NAME is missing or doesn't exist
+     * @throws NoSuchTaskException if no Tasks exists at TASK NUMBER.
+     */
     public String removeTagFromTask(String input) throws NoSuchTagException, NoSuchTaskException {
         List<String> wordSegments = parser.stringSplitter(input, " ", " ");
 
@@ -197,6 +213,8 @@ public class ListManager {
     }
 
 
+    //These private methods abstract commonly used tasks.
+    //Consulted with Claude AI on potential solutions to improve code quality
     private Task addTaskToList(String taskDescription)
             throws NoSuchTaskException, IncompleteTaskException {
         Task taskType = taskClassifier(taskDescription);

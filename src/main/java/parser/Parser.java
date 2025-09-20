@@ -2,13 +2,10 @@ package parser;
 
 import customexceptions.*;
 
-import gui.Main;
-import javafx.application.Application;
 import listmanager.ListManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
 /**

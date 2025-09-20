@@ -38,11 +38,12 @@ public class TaskSaver {
      * Prints "File not found" if no file exists.
      * @return A <code>List</code> object containing <code>Task</code> objects.
      */
+    //Use of Claude AI to figure out scanner.nextLine().trim() to fix errors.
     public List<Task> loadTasks() {
         List<Task> taskList = new ArrayList<Task>();
         try (Scanner scanner = new Scanner(new File("Tasks.txt"))) {
             while (scanner.hasNextLine()) {
-                String taskLine = scanner.nextLine().trim(); //remove trailing spaces to fix error
+                String taskLine = scanner.nextLine().trim(); //remove trailing spaces to fix error (suggested by Claude)
                 if (!taskLine.isEmpty()) {
                     taskList.add(Task.stringToTask(taskLine));
                 }
