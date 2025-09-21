@@ -22,6 +22,7 @@ public class TaskSaver {
      *
      * @param taskList List containing stored <code>Task</code> objects.
      */
+    //The idea of utilizing Printwriter originates from consulting with Claude AI on ways to read and write to files.
     public void saveTasks(List<Task> taskList) {
         System.out.println("Saving tasks");
         try (PrintWriter writer = new PrintWriter("Tasks.txt")) {

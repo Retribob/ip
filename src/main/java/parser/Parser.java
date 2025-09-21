@@ -15,6 +15,8 @@ import java.util.List;
  */
 public class Parser {
 
+    //Originally no enums were used
+    //Consulted with AI on the effectiveness on using switch cases with enums over constants with if statements.
     private enum Command {
         BYE("bye"),
         LIST("list"),
