@@ -1,7 +1,5 @@
 package tags;
 
-
-
 public class Tag {
     private String name = "";
 

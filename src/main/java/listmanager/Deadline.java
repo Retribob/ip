@@ -1,12 +1,14 @@
 package listmanager;
 
 import customexceptions.IncompleteTaskException;
-import customexceptions.IncompleteTaskException;
 
+import parser.DateTimeParser;
 import parser.Parser;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 /**
@@ -16,7 +18,16 @@ import java.util.List;
 public class Deadline extends Task {
     private String deadline;
     private LocalDate date;
+    private LocalTime time;
     private Parser parser = new Parser();
+    private DateTimeParser dateTimeParser = new DateTimeParser();
+
+    private static final DateTimeFormatter DATE_DISPLAY_FORMAT = DateTimeFormatter.ofPattern("MMM d yyyy");
+    private static final DateTimeFormatter TIME_DISPLAY_FORMAT = DateTimeFormatter.ofPattern("h a");
+
+    private static final int REQUIRED_SEGMENTS_WITH_TIMES = 3;
+    private static final int MIN_EXPECTED_SEGMENTS = 2;
+    private static final int MAX_EXPECTED_SEGMENTS = 3;
 
     public Deadline(String taskDescriptor) throws IncompleteTaskException {
         super(taskDescriptor);
@@ -56,7 +67,23 @@ public class Deadline extends Task {
     }
 
     public String getDeadline() {
-        return "(by: " + date.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ")";
+        StringBuilder sb = new StringBuilder();
+        sb.append("(by: ");
+        appendDateTime(sb, date, time, deadline);
+        sb.append(")");
+        return sb.toString();
+    }
+
+    private void appendDateTime(StringBuilder sb, LocalDate ld, LocalTime lt, String originalString) {
+        if (ld == null) {
+            sb.append(originalString);
+        } else if (lt == null) {
+            sb.append(ld.format(DATE_DISPLAY_FORMAT));
+        } else {
+            sb.append(ld.format(DATE_DISPLAY_FORMAT))
+                    .append(" ")
+                    .append(lt.format(TIME_DISPLAY_FORMAT));
+        }
     }
 
     /**
@@ -68,19 +95,20 @@ public class Deadline extends Task {
      */
     public void descriptorProcessor(String taskDescriptor) throws IncompleteTaskException {
         List<String> words = parser.stringSplitter(taskDescriptor, " ", " /by ");
-        if (words.size() < 2) {
+        if (words.size() < MIN_EXPECTED_SEGMENTS) {
             throw new IncompleteTaskException("please include the task name, thank you.");
         }
 
-        if (words.size() < 3) {
+        if (words.size() < REQUIRED_SEGMENTS_WITH_TIMES) {
             throw new IncompleteTaskException("Please add a deadline.\n Example: deadline go home /by 2pm");
         }
 
         //words length should at most be 3.
-        assert (words.size() <= 3): "word segments exceed expected amount";
+        assert (words.size() <= MAX_EXPECTED_SEGMENTS): "word segments exceed expected amount";
 
-        this.deadline = words.get(2);
-        date = LocalDate.parse(this.deadline);
         super.taskName = words.get(1);
+        this.deadline = words.get(2);
+        this.date = dateTimeParser.parseDate(this.deadline);
+        this.time = dateTimeParser.parseTime(this.deadline);
     }
 }

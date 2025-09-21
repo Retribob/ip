@@ -1,14 +1,12 @@
 package parser;
 
+import com.sun.javafx.scene.control.ControlAcceleratorSupport;
 import customexceptions.*;
 
-import gui.Main;
-import javafx.application.Application;
 import listmanager.ListManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
 /**
@@ -17,52 +15,87 @@ import java.util.Objects;
  */
 public class Parser {
 
+    private enum Command {
+        BYE("bye"),
+        LIST("list"),
+        FIND("find"),
+        UNMARK("unmark"),
+        MARK("mark"),
+        DELETE("delete"),
+        TAG("tag"),
+        UNTAG("untag"),
+        ADD("");
+
+        private final String commandString;
+
+        Command(String commandString) {
+            this.commandString = commandString;
+        }
+
+        public String getCommandString() {
+            return  this.commandString;
+        }
+    }
+
+
 
     /**
      * Scans nextline to obtain userInput.
-     * Breaks down user input into chunks to perform certain actions:
-     * Can end chatbot conversation. "bye"
-     * Can display list. "list"
-     * Can mark task as complete/incomplete. "mark/unmark <>list number</>"
-     * Can delete task. "delete <>list number</>"
-     * Can store task in <code>ListManager</code> object.
+     * Takes the first word as the keyword to identify what command the user is issuing.
+     * Calls executeCommand to execute the command
      *
      * @param listManager ListManager instance that stores tasks
      * @return False if the user wants to end the conversation, otherwise True.
      * @throws NoSuchTaskException If taskDescriptor in input does not match any known format.
      * @throws IncompleteTaskException If taskDescriptor in input matches known format but is incomplete.
      * @throws EmptyListException If user wants to display taskList but there are no tasks.
+     * @throws NoSuchTagException If the tag the user wants to delete does not exist.
      */
     public String parseInput(ListManager listManager, String input)
             throws NoSuchTaskException, IncompleteTaskException, EmptyListException, NoSuchTagException {
         List<String> wordSegments = stringSplitter(input, " ");
         String keyword = wordSegments.get(0);
 
-        if (keyword.equals("bye")) {
-            return keyword;
-        } else if (keyword.equals("list")) {
-            return listManager.displayList();
-        } else  if (keyword.equals("find")) {
-            return listManager.findTasks(input);
-        } else if (keyword.equals("unmark")) {
-            int index = Integer.parseInt(wordSegments.get(1)) - 1;
-            return listManager.updateTask(false, index);
-        } else if (keyword.equals("mark")) {
-            int index = Integer.parseInt(wordSegments.get(1)) - 1;
-            return listManager.updateTask(true, index);
-        } else if (keyword.equals("delete")) {
-            int index = Integer.parseInt(wordSegments.get(1)) - 1;
-            return listManager.deleteTasks(index);
-        } else if (keyword.equals("tag")) {
-            return listManager.addTagToTask(input);
-        } else if (keyword.equals("untag")) {
-            return listManager.removeTagFromTask(input);
-        }
+        Command command = stringToCommand(keyword);
 
-        return listManager.add(input);
-
+        return executeCommand(listManager, input, command);
 
     }
+
+    private String executeCommand(ListManager listManager, String input, Command command)
+            throws NoSuchTaskException, IncompleteTaskException, EmptyListException, NoSuchTagException {
+        switch (command) {
+            case BYE:
+                return command.getCommandString();
+            case LIST:
+                return listManager.displayList();
+            case FIND:
+                return listManager.findTasks(input);
+            case MARK:
+                return listManager.updateTask(true, input);
+            case UNMARK:
+                return listManager.updateTask(false, input);
+            case DELETE:
+                return listManager.deleteTasks(input);
+            case TAG:
+                return listManager.addTagToTask(input);
+            case UNTAG:
+                return listManager.removeTagFromTask(input);
+            case ADD:
+            default:
+                return listManager.add(input);
+        }
+    }
+
+    private Command stringToCommand(String keyword) {
+        for (Command command: Command.values()) {
+            if (keyword.equals(command.getCommandString())) {
+                return command;
+            }
+        }
+        return Command.ADD;
+    }
+
 
 
     /**
