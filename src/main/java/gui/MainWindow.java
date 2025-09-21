@@ -1,5 +1,6 @@
 package gui;
 
+//gui code was taken from the GUI tutorial on https://se-education.org/guides/tutorials/javaFx.html
 
 import bobby.Bobby;
 import javafx.animation.PauseTransition;

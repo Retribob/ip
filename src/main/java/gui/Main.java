@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 
+//gui code was from the GUI tutorial on https://se-education.org/guides/tutorials/javaFx.html
+
 /**
  * A GUI for Duke using FXML.
  */

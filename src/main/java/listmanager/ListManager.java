@@ -227,8 +227,7 @@ public class ListManager {
         throws IncompleteTaskException {
         List<String> wordSegments = parser.stringSplitter(input, splitPoints);
         if (wordSegments.size() < expectedSegments) {
-            throw new IncompleteTaskException("Your command is incomplete. It has contains a valid keyword but misses" +
-                    "details such as a task name or task number");
+            throw new IncompleteTaskException("I do not recognize your input.");
         }
         return wordSegments;
     }

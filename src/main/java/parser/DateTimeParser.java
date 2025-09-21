@@ -1,7 +1,5 @@
 package parser;
 
-import com.sun.javafx.scene.control.behavior.FocusTraversalInputMap;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -17,11 +15,9 @@ public class DateTimeParser {
     private static final int EXPECTED_SEGMENTS = 2;
 
 
-
-
     private static final Parser parser = new Parser();
 
-
+    //ParseDate and parseTime methods were generated with AI and modified to make more sense.
     public LocalDate parseDate(String input) {
         List<String> dateAndTime = parser.stringSplitter(input, " ");
         LocalDate returnDate = null;

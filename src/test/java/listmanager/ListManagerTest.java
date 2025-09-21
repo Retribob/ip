@@ -24,8 +24,7 @@ public class ListManagerTest {
             listManager.taskClassifier("todo");
             fail();
         } catch (Exception e) {
-            assertEquals("Your command is incomplete. It has contains a valid keyword but misses" +
-                            "details such as a task name or task number",
+            assertEquals("I do not recognize your input.",
                     e.getMessage());
         }
     }
@@ -80,8 +79,7 @@ public class ListManagerTest {
             listManager.taskClassifier("randomString");
             fail();
         } catch (Exception e) {
-            assertEquals("Your command is incomplete. It has contains a valid keyword but misses" +
-                            "details such as a task name or task number",
+            assertEquals("I do not recognize your input.",
                     e.getMessage());
         }
     }
