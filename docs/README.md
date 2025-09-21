@@ -1,6 +1,6 @@
 # Bobby User Guide
 
-![UI.png](UI.png)
+![Ui.png](Ui.png)
 
 // Product intro goes here
 Get a neat little task manager in the form of *Bobby*.
