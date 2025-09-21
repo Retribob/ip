@@ -186,7 +186,7 @@ public class ListManager {
      */
     public Task taskClassifier(String task) throws NoSuchTaskException, IncompleteTaskException {
         //split the task string into keywords
-        List<String > taskKeyWords = validateAndParseInput(task, 2, " ");
+        List<String> taskKeyWords = validateAndParseInput(task, 2, " ");
 
         //by splitting the string up we can now compare the first word to identify the task type
         if (taskKeyWords.get(0).equals("todo")) {
@@ -227,7 +227,8 @@ public class ListManager {
         throws IncompleteTaskException {
         List<String> wordSegments = parser.stringSplitter(input, splitPoints);
         if (wordSegments.size() < expectedSegments) {
-            throw new IncompleteTaskException("Your command is incomplete. Please follow the correct format");
+            throw new IncompleteTaskException("Your command is incomplete. It has contains a valid keyword but misses" +
+                    "details such as a task name or task number");
         }
         return wordSegments;
     }
