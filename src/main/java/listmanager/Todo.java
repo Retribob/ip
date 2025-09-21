@@ -11,6 +11,8 @@ import java.util.List;
 public class Todo extends Task {
 
     private Parser parser = new Parser();
+    private static final int MAX_EXPECTED_SEGMENTS = 2;
+
 
     public Todo(String taskDescriptor) throws IncompleteTaskException {
         super(taskDescriptor);
@@ -58,9 +60,9 @@ public class Todo extends Task {
         List<String> words = parser.stringSplitter(taskDescriptor, " ");
 
         //words length should at most be 2.
-        assert (words.size() <= 2): "word segments exceed expected amount";
+        assert (words.size() <= MAX_EXPECTED_SEGMENTS): "word segments exceed expected amount";
 
-        if (words.size() != 2) {
+        if (words.size() != MAX_EXPECTED_SEGMENTS) {
             throw new IncompleteTaskException("please include the task name, thank you.");
         }
         super.taskName = words.get(1);

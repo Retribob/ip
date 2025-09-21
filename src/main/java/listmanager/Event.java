@@ -1,12 +1,12 @@
 package listmanager;
 
 import customexceptions.IncompleteTaskException;
+import parser.DateTimeParser;
 import parser.Parser;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 
 /**
@@ -21,6 +21,15 @@ public class Event extends Task {
     private LocalDate endDate;
     private LocalTime endTime;
     private Parser parser = new Parser();
+    private DateTimeParser dateTimeParser = new DateTimeParser();
+
+    private static final DateTimeFormatter DATE_DISPLAY_FORMAT = DateTimeFormatter.ofPattern("MMM d yyyy");
+    private static final DateTimeFormatter TIME_DISPLAY_FORMAT = DateTimeFormatter.ofPattern("h a");
+
+    private static final int REQUIRED_SEGMENTS_WITH_TIMES = 4;
+    private static final int MIN_EXPECTED_SEGMENTS = 2;
+    private static final int MAX_EXPECTED_SEGMENTS = 4;
+
 
     public Event(String taskDescriptor) throws IncompleteTaskException {
         super(taskDescriptor);
@@ -63,39 +72,26 @@ public class Event extends Task {
     public String getEventPeriod() {
         StringBuilder sb = new StringBuilder();
         sb.append("(from: ");
-        appendStartDate(sb);
+        appendDateTime(sb, startDate, startTime, start);
 
         sb.append(" to: ");
-        appendEndDate(sb);
+        appendDateTime(sb, endDate, endTime, end);
         sb.append(")");
         return sb.toString();
     }
 
-    private void appendStartDate(StringBuilder stringBuilder) {
-        if (startDate == null) {
-            stringBuilder.append(start);
-        } else if(startTime == null) {
-            stringBuilder.append(startDate.format(DateTimeFormatter.ofPattern("MMM d yyyy")))
-                    .append(" ");
+    private void appendDateTime(StringBuilder sb, LocalDate ld, LocalTime lt, String originalString) {
+        if (ld == null) {
+            sb.append(originalString);
+        } else if (lt == null) {
+            sb.append(ld.format(DATE_DISPLAY_FORMAT));
         } else {
-            stringBuilder.append(startDate.format(DateTimeFormatter.ofPattern("MMM d yyyy")))
+            sb.append(ld.format(DATE_DISPLAY_FORMAT))
                     .append(" ")
-                    .append(startTime.format(DateTimeFormatter.ofPattern("h a")));
+                    .append(lt.format(TIME_DISPLAY_FORMAT));
         }
     }
 
-    private void appendEndDate(StringBuilder stringBuilder) {
-        if (endDate == null) {
-            stringBuilder.append(end);
-        } else if(endTime == null) {
-            stringBuilder.append(endDate.format(DateTimeFormatter.ofPattern("MMM d yyyy")))
-                    .append(" ");
-        } else {
-            stringBuilder.append(endDate.format(DateTimeFormatter.ofPattern("MMM d yyyy")))
-                    .append(" ")
-                    .append(endTime.format(DateTimeFormatter.ofPattern("h a")));
-        }
-    }
 
     /**
      * Processes taskDescriptor and splits it into task name and start and end date.
@@ -106,60 +102,25 @@ public class Event extends Task {
      */
     public void descriptorProcessor(String taskDescriptor) throws IncompleteTaskException {
         List<String> words = parser.stringSplitter(taskDescriptor, " ", " /from ", " /to ");
-        if (words.size() < 2) {
+        if (words.size() < MIN_EXPECTED_SEGMENTS) {
             throw new IncompleteTaskException("please include the task name, thank you.");
         } else {
 
             //words length should at most be 4.
-            assert (words.size() <= 4): "word segments exceed expected amount";
+            assert (words.size() <= MAX_EXPECTED_SEGMENTS): "word segments exceed expected amount";
 
-             if (words.size() < 4) {
+             if (words.size() < REQUIRED_SEGMENTS_WITH_TIMES) {
                 throw new IncompleteTaskException("please include start and end time using /from and /to for events");
             }
              
             super.taskName = words.get(1);
             this.start = words.get(2);
             this.end = words.get(3);
-            dateTimeProcessor(start, true);
-            dateTimeProcessor(end, false);
-            
-        }
-    }
+            this.startDate = dateTimeParser.parseDate(this.start);
+            this.startTime = dateTimeParser.parseTime(this.start);
+            this.endDate = dateTimeParser.parseDate(this.end);
+            this.endTime = dateTimeParser.parseTime(this.end);
 
-
-    private void dateTimeProcessor(String input, boolean isStart) {
-        List<String> dateAndTime = parser.stringSplitter(input, " ");
-
-        if (isStart) {
-            if (dateAndTime.size() == 2) {
-                try {
-                    DateTimeFormatter standardFormat = DateTimeFormatter.ofPattern("HHmm");
-                    startTime = LocalTime.parse(dateAndTime.get(1), standardFormat);
-                } catch (DateTimeParseException e) {
-                    startTime = null;
-                }
-            }
-
-            try {
-                startDate = LocalDate.parse(dateAndTime.get(0));
-            } catch (DateTimeParseException e) {
-                startDate = null;
-            }
-        } else {
-            if (dateAndTime.size() == 2) {
-                try {
-                    DateTimeFormatter standardFormat = DateTimeFormatter.ofPattern("HHmm");
-                    endTime = LocalTime.parse(dateAndTime.get(1), standardFormat);
-                } catch (DateTimeParseException e) {
-                    endTime = null;
-                }
-            }
-
-            try {
-                endDate = LocalDate.parse(dateAndTime.get(0));
-            } catch (DateTimeParseException e) {
-                endDate = null;
-            }
         }
     }
 }
