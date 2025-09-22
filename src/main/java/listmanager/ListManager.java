@@ -171,7 +171,7 @@ public class ListManager {
      *
      * @param userInput The find command issued by the user.
      */
-    public String findTasks(String userInput) throws EmptyListException {
+    public String findTasks(String userInput) throws EmptyListException, IncompleteTaskException{
         return taskFinder.setFilteredList(taskList, userInput);
     }
 

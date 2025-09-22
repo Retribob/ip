@@ -1,7 +1,9 @@
 package taskfinder;
 
 import customexceptions.EmptyListException;
+import customexceptions.IncompleteTaskException;
 import listmanager.Task;
+import parser.Parser;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,6 +14,7 @@ import java.util.List;
  */
 public class TaskFinder {
     private List<Task> filteredList = new ArrayList<>();
+    private Parser parser = new Parser();
 
     /**
      * setFilteredList filters out tasks based on userInput.
@@ -20,12 +23,19 @@ public class TaskFinder {
      * @param userInput Find command containing search keyword.
      * @throws EmptyListException If taskList is empty.
      */
-    public String setFilteredList(List<Task> taskList, String userInput) throws EmptyListException {
+    public String setFilteredList(List<Task> taskList, String userInput)
+            throws EmptyListException, IncompleteTaskException {
         filteredList = new ArrayList<>();
-        String keyword = userInput.split(" ")[1];
+        List<String> wordSegments = parser.stringSplitter(userInput, " ");
+
+        if (wordSegments.size() < 2) {
+            throw new IncompleteTaskException("please specify what to find");
+        }
         if (taskList.isEmpty()) {
             throw new EmptyListException("There are no tasks to filter, please input some tasks");
         }
+        String keyword = wordSegments.get(1);
+
         for (Task task : taskList) {
             if (task.getName().contains(keyword)) {
                 filteredList.add(task);
